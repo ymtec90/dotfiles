@@ -13,8 +13,8 @@ filetype indent on
 " Turn syntax highlighting on.
 syntax on
 
-" Add numbers to each line on the left-hand side.
-set number
+" Add hybrid numbers to each line on the left-hand side.
+set number relativenumber
 
 " Highlight cursor line underneath the cursor horizontally.
 " set cursorline
@@ -82,13 +82,24 @@ set wildignore=*.docx,*.jgp,*.png,*.gif,*.pdf,*.pyc,*.exe,*.exe,*.flv,*.img,*.xl
 
 call plug#begin('~/.vim/plugged')
 
-  Plug 'dense-analysis/ale'
-
-  Plug 'preservim/nerdtree'
-
+" Asynchronous Lint Engine
+  Plug 'dense-analysis/ale', { 'do': 'pip install flake8 isort yapf black' }
+" A tree explorer
+  Plug 'preservim/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+" Python code folding for Vim
   Plug 'tmhedberg/SimpylFold'
-
+" An alternative indentation script for python
   Plug 'vim-scripts/indentpython.vim'
+" Syntax highlighting
+  Plug 'sheerun/vim-polyglot'
+" Async completion framework made ease
+  Plug 'maralla/completor.vim', { 'do': 'pip install jedi' }
+" Use the jedi autocompletion library
+  Plug 'davidhalter/jedi-vim', { 'do': 'pip install jedi' }
+" Search files and buffers
+  Plug 'ctrlpvim/ctrlp.vim'
+" Instant Markdown previews
+  Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
 
 call plug#end()
 
@@ -97,7 +108,12 @@ let g:SimpylFold_docstring_preview=1
 
 " Enable ALE fixers
 let g:ale_fixers = {
-\ 'python': ['black'],
+\ 'python': [
+\   'black',
+\   'yapf',
+\   'remove_trailing_lines',
+\   'trim_whitespace'
+\    ]
 \}
 
 " Set this variable to 1 to fix files when you save them.
@@ -111,6 +127,8 @@ let g:ale_fix_on_save = 1
 " source for other completion plugins, like Deoplete.
 let g:ale_completion_enable = 1
 
+" Avoid conflict between completor and jedi-vim
+let g:jedi#completions_enabled = 0
 
 " }}}
 
@@ -262,6 +280,13 @@ endif
 
 " Adding UTF-8 Support
 set encoding=utf-8
+
+" Automatic toggle between line numbers mode
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
 
 " }}}
 

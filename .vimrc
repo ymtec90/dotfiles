@@ -100,6 +100,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
 " Instant Markdown previews
   Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
+" Calendar vimscript
+  Plug 'https://github.com/mattn/calendar-vim'
 
 call plug#end()
 

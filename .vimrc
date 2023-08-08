@@ -66,6 +66,12 @@ set hlsearch
 " Set commands to save in history default number is 20.
 set history=1000
 
+" Set the backgroud tone.
+"set background=dark
+    
+" Set the color scheme.
+colorscheme zenburn
+
 " Enable auto completion menu after pressing TAB.
 set wildmenu
 
@@ -85,7 +91,7 @@ call plug#begin('~/.vim/plugged')
 " Asynchronous Lint Engine
   Plug 'dense-analysis/ale', { 'do': 'pip install flake8 isort yapf black' }
 " A tree explorer
-  Plug 'preservim/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 
 " Python code folding for Vim
   Plug 'tmhedberg/SimpylFold'
 " An alternative indentation script for python
@@ -102,6 +108,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
 " Calendar vimscript
   Plug 'https://github.com/mattn/calendar-vim'
+" Airline plugin for manage Vim status line
+  Plug 'vim-airline/vim-airline'
+" Airline themes
+  Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -131,6 +141,13 @@ let g:ale_completion_enable = 1
 
 " Avoid conflict between completor and jedi-vim
 let g:jedi#completions_enabled = 0
+
+" Set vim-airline to use vim-devicons
+let g:airline_powerline_fonts = 1
+
+" Selecting the status line theme
+let g:airline_theme='base16'
+
 
 " }}}
 
@@ -207,6 +224,8 @@ inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
 
+" Map the F9 key to start the Calendar plugin
+nnoremap <F9> :Calendar<CR>
 
 " }}}
 
@@ -252,7 +271,7 @@ if has('gui_running')
 
     " Set a custom font you have installed on your computer.
     " Syntax: set guifont=<font_name>\ <font_weight>\ <size>
-    set guifont=Monospace\ Regular\ 12
+    set guifont=DroidSansMono\ Nerd\ Font\ 11
 
     " Display more of the file by default.
     " Hide the toolbar.
@@ -281,7 +300,7 @@ if has('gui_running')
 endif
 
 " Adding UTF-8 Support
-set encoding=utf-8
+set encoding=utf8
 
 " Automatic toggle between line numbers mode
 augroup numbertoggle

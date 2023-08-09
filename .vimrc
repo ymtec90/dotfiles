@@ -108,6 +108,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
 " Calendar vimscript
   Plug 'https://github.com/mattn/calendar-vim'
+" Bufferline plugin
+  Plug 'bling/vim-bufferline'
 " Airline plugin for manage Vim status line
   Plug 'vim-airline/vim-airline'
 " Airline themes
@@ -148,6 +150,15 @@ let g:airline_powerline_fonts = 1
 " Selecting the status line theme
 let g:airline_theme='base16'
 
+" Configuring the vim-bufferline
+let g:bufferline_echo = 0
+
+" Configuration of the tab line
+let g:airline#extensions#bufferline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_set = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " }}}
 
@@ -226,6 +237,12 @@ inoremap { {}<Left>
 
 " Map the F9 key to start the Calendar plugin
 nnoremap <F9> :Calendar<CR>
+
+" Map the TAB key to move to the next buffer
+nnoremap <TAB> :bn<CR>
+
+" Map the combination Shift-TAB to move to previous buffer
+nnoremap <S-TAB> :bp<CR>
 
 " }}}
 

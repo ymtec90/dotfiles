@@ -114,6 +114,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'vim-airline/vim-airline'
 " Airline themes
   Plug 'vim-airline/vim-airline-themes'
+" Provides support for expanding abbreviations
+  Plug 'mattn/emmet-vim'
+" Prettier plugin for Vim
+  Plug 'prettier/vim-prettier'
 
 call plug#end()
 
@@ -127,8 +131,17 @@ let g:ale_fixers = {
 \   'yapf',
 \   'remove_trailing_lines',
 \   'trim_whitespace'
-\    ]
+\    ],
+\ 'html': ['prettier'],
+\ 'css': ['stylelint'],
 \}
+
+" Enable ALE linters
+let g:ale_linters = {
+\ 'html': ['htmlhint'],
+\ 'css': ['stylelint'],
+\}
+let g:ale_linters_explict = 1
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1
@@ -159,6 +172,9 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_set = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+" Setting the emmet-vim leader key
+let g:user_emmet_leader_key = ','
 
 " }}}
 

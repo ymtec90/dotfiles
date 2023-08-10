@@ -105,7 +105,22 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# alias to activate my virtualenvs
-alias devel="source ~/.virtualenvs/development/bin/activate"
-alias data="source ~/.virtualenvs/datascience/bin/activate"
-alias wflask="source ~/.virtualenvs/flask/bin/activate"
+Virtualenv activation function
+avenv() {
+    venv_folder="/home/ymfds/.virtualenvs/"
+
+    echo "avaliable virtual enviroments"
+    ls "$venv_folder"
+
+    echo "insert the name of the virtual enviroment you would like to activate"
+    read venv_name
+
+    venv_path="$venv_folder$venv_name"
+
+    if [ -d "$venv_path" ]; then
+        source "$venv_path/bin/activate"
+    else
+        echo "virtual enviroment not found."
+    fi
+}
+

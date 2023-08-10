@@ -5,3 +5,4 @@ This is the repo where I put the last configurations used in the main applicatio
 
 1. Vim
 2. Tmux (using tpm as their plugin manager)
+3. Zsh

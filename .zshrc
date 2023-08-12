@@ -105,14 +105,42 @@ source $ZSH/oh-my-zsh.sh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Virtualenv list
+lvenv() {
+    venv_folder="$HOME/.virtualenvs"
+
+    if [ -d "$venv_folder" ]; then
+        ls $venv_folder
+    else
+        echo "There is no environment to list. Please create a environment to proceed."
+    fi
+}
+
+# Virtualenv creation function
+cvenv() {
+    venv_folder="$HOME/.virtualenvs/"
+    venv_name="$1"
+
+    if [ -d "$venv_folder" ]; then
+        mkdir -p "$venv_folder/$venv_name"
+        python -m venv "$venv_folder/$venv_name"
+        echo "Virtual enviroment created successfully."
+    else
+        mkdir -p "$venv_folder"
+        mkdir -p "$venv_folder/$venv_name"
+        python -m venv "$venv_folder/$venv_name"
+        echo "Virtual enviroment created successfully."
+    fi
+}
+
 # Virtualenv activation function
 avenv() {
-    venv_folder="/home/ymfds/.virtualenvs/"
+    venv_folder="$HOME/.virtualenvs/"
 
-    echo "avaliable virtual enviroments"
+    echo "avaliable virtual enviroments."
     ls "$venv_folder"
 
-    echo "insert the name of the virtual enviroment you would like to activate"
+    echo "insert the name of the virtual enviroment you would like to activate."
     read venv_name
 
     venv_path="$venv_folder$venv_name"
@@ -124,3 +152,21 @@ avenv() {
     fi
 }
 
+# Virtualenv delete
+dvenv() {
+    venv_folder="$HOME/.virtualenvs/"
+
+    echo "avaliable virtual environments:"
+    ls "$venv_folder"
+
+    echo "insert the name of the virtual environment you would like to delete."
+    read venv_name
+
+    venv_path="$venv_folder$venv_name"
+
+    if [ -d "$venv_path" ]; then
+        rm -rf "$venv_path"
+    else
+        echo "virtual enviroment not found."
+    fi
+}

@@ -7,6 +7,14 @@ This is the repo where I put the last configurations used in the main applicatio
 2. Tmux (using tpm as their plugin manager)
 3. Zsh
 
+#### How to setup tmux
+
+1. Open your terminal.
+2. Type `$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+3. Type `$ mkdir ~/.config/tmux`
+4. Paste the `tmux.conf` inside the created folder `$ mv .../configs/tmux.conf ~/.config/tmux/ ` 
+5. Start the tmux and then press `Ctrl + b + I` to force the system to install the required plugins.
+
 #### How to use the venv functions while in a terminal using Zsh:
 
 The script is very intuitive and easy to use. Follow the instructions bellow and manage your python virtual environments without

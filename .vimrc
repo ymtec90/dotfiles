@@ -17,7 +17,7 @@ syntax on
 set number relativenumber
 
 " Highlight cursor line underneath the cursor horizontally.
-" set cursorline
+set cursorline
 
 " Highlight cursor line underneath the cursor vertically.
 " set cursorcolumn
@@ -106,8 +106,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
 " Instant Markdown previews
   Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
-" Calendar vimscript
-  Plug 'https://github.com/mattn/calendar-vim'
 " Bufferline plugin
   Plug 'bling/vim-bufferline'
 " Airline plugin for manage Vim status line
@@ -250,9 +248,6 @@ inoremap ' ''<Left>
 inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
-
-" Map the F9 key to start the Calendar plugin
-nnoremap <F9> :Calendar<CR>
 
 " Map the TAB key to move to the next buffer
 nnoremap <TAB> :bn<CR>

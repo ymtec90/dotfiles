@@ -116,6 +116,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/emmet-vim'
 " Prettier plugin for Vim
   Plug 'prettier/vim-prettier'
+" VimWiki a personal wiki for Vim
+  Plug 'vimwiki/vimwiki'
+" Calendar-vim for integrate with VimWiki
+  Plug 'https://github.com/mattn/calendar-vim'
 
 call plug#end()
 
@@ -173,6 +177,19 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " Setting the emmet-vim leader key
 let g:user_emmet_leader_key = ','
+
+" Set the vimwiki path
+let g:vimwiki_list = [{'path':'~/Documentos/vimwiki/'}]
+
+" Set the sequence of icons for the to do list in vimwiki
+let g:vimwiki_listsyms='✗○◐●✓'
+
+" Small configuration for Calendar diary
+let g:calendar_diary_list=[
+      \ {'name':'diary',
+      \ 'path':$HOME.'/Documentos/vimwiki/diary',
+      \ 'ext':'.wiki'}
+      \ ]
 
 " }}}
 
@@ -250,10 +267,13 @@ inoremap [ []<Left>
 inoremap { {}<Left>
 
 " Map the TAB key to move to the next buffer
-nnoremap <TAB> :bn<CR>
+nnoremap [b :bn<CR>
 
 " Map the combination Shift-TAB to move to previous buffer
-nnoremap <S-TAB> :bp<CR>
+nnoremap ]b :bp<CR>
+
+" Map the <F9> to toggle the calendar-tree
+nnoremap <F9> :Calendar<CR>
 
 " }}}
 
@@ -336,6 +356,14 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
+
+" Automatic update the vimwiki diary index
+command! Diary VimwikiDiaryIndex
+augroup vimwikigroup
+  autocmd!
+  " automatically update links on read diary
+  autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+augroup end
 
 " }}}
 

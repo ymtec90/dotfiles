@@ -72,7 +72,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git
     zsh-syntax-highlighting
-    zsh-autosuggestions)
+    zsh-autosuggestions
+    k
+    fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,6 +106,8 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Virtualenv list
 lvenv() {
@@ -169,4 +173,15 @@ dvenv() {
     else
         echo "virtual enviroment not found."
     fi
+}
+
+# Flask server initiation function
+# Navigate to the source folder of the server and the user the fuction followed by the
+# Python script file without the .py to start the server
+flask_init() {
+    flask_script="$1"
+    export FLASK_APP="$flask_script"
+    export FLASK_ENV=development
+    export FLASK_DEBUG=1
+    flask run --host=0.0.0.0
 }

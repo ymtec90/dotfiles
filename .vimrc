@@ -116,6 +116,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'mattn/emmet-vim'
 " Prettier plugin for Vim
   Plug 'prettier/vim-prettier'
+" Vim CSS Colors - highlight the css colors values
+  Plug 'ap/vim-css-color'
+" JavaScript highlighting and improved indentation
+  Plug 'pangloss/vim-javascript'
 " VimWiki a personal wiki for Vim
   Plug 'vimwiki/vimwiki'
 " Calendar-vim for integrate with VimWiki
@@ -124,9 +128,10 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " See the docstrings for folded code by SimpylFold
-let g:SimpylFold_docstring_preview=1
+let g:SimpylFold_docstring_preview = 1
 
 " Enable ALE fixers
+let g:ale_javascript_eslint_use_global = 1
 let g:ale_fixers = {
 \ 'python': [
 \   'black',
@@ -136,14 +141,25 @@ let g:ale_fixers = {
 \    ],
 \ 'html': ['prettier'],
 \ 'css': ['stylelint'],
+\ 'javascript': [
+\   'eslint',
+\   'prettier'
+\   ],
 \}
 
 " Enable ALE linters
 let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \ 'css': ['stylelint'],
+\ 'javascript': [
+\   'prettier',
+\   'eslint'
+\   ],
 \}
 let g:ale_linters_explict = 1
+let g:ale_sign_columns_always = 1
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1

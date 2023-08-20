@@ -153,7 +153,7 @@ let g:ale_fixers = {
 \   'yapf'
 \   ],
 \ 'html': ['prettier'],
-\ 'css': ['stylelint'],
+\ 'css': ['prettier'],
 \ 'javascript': [
 \   'eslint',
 \   'prettier'
@@ -176,7 +176,7 @@ let g:ale_fixers = {
 " Enable ALE linters
 let g:ale_linters = {
 \ 'html': ['htmlhint'],
-\ 'css': ['stylelint'],
+\ 'css': ['prettier'],
 \ 'javascript': [
 \   'prettier',
 \   'eslint'

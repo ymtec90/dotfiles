@@ -6,6 +6,7 @@ filetype on
 
 " Enable plugins and load plugin for the detected file type.
 filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 " Load an indent file for the detected file type.
 filetype indent on
@@ -68,7 +69,7 @@ set history=1000
 
 " Set the backgroud tone.
 "set background=dark
-    
+
 " Set the color scheme.
 colorscheme zenburn
 
@@ -91,7 +92,7 @@ call plug#begin('~/.vim/plugged')
 " Asynchronous Lint Engine
   Plug 'dense-analysis/ale', { 'do': 'pip install flake8 isort yapf black' }
 " A tree explorer
-  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' 
+  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 " Python code folding for Vim
   Plug 'tmhedberg/SimpylFold'
 " An alternative indentation script for python
@@ -118,12 +119,25 @@ call plug#begin('~/.vim/plugged')
   Plug 'prettier/vim-prettier'
 " Vim CSS Colors - highlight the css colors values
   Plug 'ap/vim-css-color'
+" Update Vim's built-in css to support CSS3
+  Plug 'hail2u/vim-css3-syntax'
 " JavaScript highlighting and improved indentation
   Plug 'pangloss/vim-javascript'
 " VimWiki a personal wiki for Vim
   Plug 'vimwiki/vimwiki'
 " Calendar-vim for integrate with VimWiki
   Plug 'https://github.com/mattn/calendar-vim'
+" Vim-Closetag plugin for closing html tags
+  Plug 'alvan/vim-closetag'
+" Vim tagalong for matching the changes in the html tags
+  Plug 'AndrewRadev/tagalong.vim'
+" Vim-jsx-pretty for React Support
+  Plug 'maxmellon/vim-jsx-pretty'
+" React Snippets
+  Plug 'SirVer/ultisnips'
+  Plug 'mlaursen/vim-react-snippets'
+" Tern_for_VIM for Angular support
+  Plug 'https://github.com/ternjs/tern_for_vim'
 
 call plug#end()
 
@@ -133,18 +147,30 @@ let g:SimpylFold_docstring_preview = 1
 " Enable ALE fixers
 let g:ale_javascript_eslint_use_global = 1
 let g:ale_fixers = {
+\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 \ 'python': [
 \   'black',
-\   'yapf',
-\   'remove_trailing_lines',
-\   'trim_whitespace'
-\    ],
+\   'yapf'
+\   ],
 \ 'html': ['prettier'],
 \ 'css': ['stylelint'],
 \ 'javascript': [
 \   'eslint',
 \   'prettier'
 \   ],
+\ 'javascript.jsx': [
+\   'eslint',
+\   'prettier'
+\   ],
+\ 'typescript': [
+\   'eslint',
+\   'prettier'
+\   ],
+\ 'typescriptreact': [
+\   'eslint',
+\   'prettier'
+\   ],
+\ 'json': ['prettier'],
 \}
 
 " Enable ALE linters
@@ -152,6 +178,18 @@ let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \ 'css': ['stylelint'],
 \ 'javascript': [
+\   'prettier',
+\   'eslint'
+\   ],
+\ 'javascript.jsx': [
+\   'prettier',
+\   'eslint'
+\   ],
+\ 'typescript': [
+\   'prettier',
+\   'eslint'
+\   ],
+\ 'typescriptreact': [
 \   'prettier',
 \   'eslint'
 \   ],
@@ -217,7 +255,7 @@ let g:calendar_diary_list=[
 " Type jj to exit insert mode quickly.
 inoremap jj <esc>
 
-" Set the backslash as the leader key. 
+" Set the backslash as the leader key.
 let mapleader = ","
 
 " Press ,, to turn off search highlighting
@@ -231,7 +269,7 @@ nnoremap <space> :
 nnoremap o o<esc>
 nnoremap O O<esc>
 
-" Center the cursor vertically when moving to the next word during search. 
+" Center the cursor vertically when moving to the next word during search.
 nnoremap n nzz
 nnoremap N Nzz
 
@@ -245,6 +283,9 @@ nnoremap Y y$
 " !clear runs the external clear screen command.
 " !python3 % executes the current file with Python.
 nnoremap <F5> :w <CR>:!clear <CR>:!python3 % <CR>
+
+" Map the <F7> key to run a HTML file inside Vim.
+nnoremap <F7> :w <CR>:!clear <CR>:!xdg-open %<CR>
 
 " You can split the window in Vim by typing :split or :vsplit.
 " Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or CTRL+l.
@@ -296,7 +337,7 @@ nnoremap <F9> :Calendar<CR>
 
 " VIMSCRIPT -------------------------------------------------------------{{{
 
-" VIMSCRIPT goes here 
+" VIMSCRIPT goes here
 
 " This will enable code folding
 " Use the marker method of folding.
@@ -326,10 +367,10 @@ endif
 
 " If GUI version of Vim is running set these options.
 if has('gui_running')
-    
+
     " Set the backgroud tone.
     set background=dark
-    
+
     " Set the color scheme.
     colorscheme molokai
 

@@ -29,7 +29,7 @@ set shiftwidth=4
 " Set tab width to 4 columns.
 set tabstop=4
 
-" Use space caracters instead of tabs.
+" Use space characters instead of tabs.
 set expandtab
 
 " Do not save backup files.
@@ -67,7 +67,7 @@ set hlsearch
 " Set commands to save in history default number is 20.
 set history=1000
 
-" Set the backgroud tone.
+" Set the background tone.
 "set background=dark
 
 " Set the color scheme.
@@ -106,7 +106,7 @@ call plug#begin('~/.vim/plugged')
 " Search files and buffers
   Plug 'ctrlpvim/ctrlp.vim'
 " Instant Markdown previews
-  Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install'}
+  Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install' }
 " Bufferline plugin
   Plug 'bling/vim-bufferline'
 " Airline plugin for manage Vim status line
@@ -137,7 +137,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'SirVer/ultisnips'
   Plug 'mlaursen/vim-react-snippets'
 " Tern_for_VIM for Angular support
-  Plug 'https://github.com/ternjs/tern_for_vim'
+  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+" Bracey plugin for live html, css and javascript editing in Vim
+  Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
 
 call plug#end()
 
@@ -146,6 +148,7 @@ let g:SimpylFold_docstring_preview = 1
 
 " Enable ALE fixers
 let g:ale_javascript_eslint_use_global = 1
+let g:jsx_ext_required = 0
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
 \ 'python': [
@@ -177,33 +180,22 @@ let g:ale_fixers = {
 let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \ 'css': ['prettier'],
-\ 'javascript': [
-\   'prettier',
-\   'eslint'
-\   ],
-\ 'javascript.jsx': [
-\   'prettier',
-\   'eslint'
-\   ],
-\ 'typescript': [
-\   'prettier',
-\   'eslint'
-\   ],
-\ 'typescriptreact': [
-\   'prettier',
-\   'eslint'
-\   ],
+\ 'javascript': ['standard'],
 \}
-let g:ale_linters_explict = 1
 let g:ale_sign_columns_always = 1
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+let g:ale_linters_explicit = 1
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1
 
+" ALE configs for JavaScript Prettier
+let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none'
 
-" Enable completion where avaliable.
+" Enable completion where available.
 " This setting must be set before ALE is loaded.
 "
 " You should not turn this setting on if you wish to use ALE as a completion
@@ -252,8 +244,9 @@ let g:calendar_diary_list=[
 
 " Mappings code goes here.
 
-" Type jj to exit insert mode quickly.
+" Type jj or jk to exit insert mode quickly.
 inoremap jj <esc>
+inoremap jk <esc>
 
 " Set the backslash as the leader key.
 let mapleader = ","
@@ -284,8 +277,11 @@ nnoremap Y y$
 " !python3 % executes the current file with Python.
 nnoremap <F5> :w <CR>:!clear <CR>:!python3 % <CR>
 
-" Map the <F7> key to run a HTML file inside Vim.
-nnoremap <F7> :w <CR>:!clear <CR>:!xdg-open %<CR>
+" Map the <F6> key to run a HTML file inside the browser
+nnoremap <F6> :w <CR>:!clear <CR>:!xdg-open %<CR>
+
+" Map the <F7> key to run a JavaScript file inside Vim.
+nnoremap <F7> :w <CR>:!clear <CR>:!/usr/bin/node %<CR>
 
 " You can split the window in Vim by typing :split or :vsplit.
 " Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or CTRL+l.
@@ -329,8 +325,35 @@ nnoremap [b :bn<CR>
 " Map the combination Shift-TAB to move to previous buffer
 nnoremap ]b :bp<CR>
 
-" Map the <F9> to toggle the calendar-tree
-nnoremap <F9> :Calendar<CR>
+" Map the <F8> to toggle the calendar-tree
+nnoremap <F8> :Calendar<CR>
+
+" Manage sessions easily
+" To make a session
+nnoremap <leader>ms :mks!<CR>
+" To restore the last session
+nnoremap <leader>rs :so Session.vim<CR>
+
+" Easily left Vim
+nnoremap <leader>q :q!<CR>
+
+" Enabling and disabling spellcheck
+" Enable
+nnoremap <leader>sy :set spell<CR>
+" Disable
+nnoremap <leader>sn :set nospell<CR>
+
+" Mapping for error handling with ALE
+nnoremap <leader>af :ALEFix<CR>
+" Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
+
+" Bracey mappings for live editing
+" To start Bracey
+nnoremap <F9> :Bracey<CR>
+" To stop Bracey
+nnoremap <F12> :BraceyStop<CR>
 
 " }}}
 

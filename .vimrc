@@ -90,9 +90,9 @@ set wildignore=*.docx,*.jgp,*.png,*.gif,*.pdf,*.pyc,*.exe,*.exe,*.flv,*.img,*.xl
 call plug#begin('~/.vim/plugged')
 
 " Asynchronous Lint Engine
-  Plug 'dense-analysis/ale', { 'do': 'pip install flake8 isort yapf black' }
+  Plug 'dense-analysis/ale', { 'do': 'pip install ruff flake8 isort yapf black' }
 " A tree explorer
-  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' | Plug 'Xuyuanp/nerdtree-git-plugin'
 " Python code folding for Vim
   Plug 'tmhedberg/SimpylFold'
 " An alternative indentation script for python
@@ -152,8 +152,10 @@ let g:jsx_ext_required = 0
 let g:ale_fixers = {
 \ '*': ['remove_trailing_lines', 'trim_whitespace'],
 \ 'python': [
+\   'isort',
 \   'black',
-\   'yapf'
+\   'yapf',
+\   'ruff',
 \   ],
 \ 'html': ['prettier'],
 \ 'css': ['prettier'],
@@ -181,13 +183,17 @@ let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \ 'css': ['prettier'],
 \ 'javascript': ['standard'],
+\ 'python': ['ruff'],
 \}
 let g:ale_sign_columns_always = 1
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
+let g:ale_lint_on_enter = 1
+let g:ale_lint_on_text_changed = 'never'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 let g:ale_linters_explicit = 1
+let g:ale_lint_on_save = 1
 
 " Set this variable to 1 to fix files when you save them.
 let g:ale_fix_on_save = 1

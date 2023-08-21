@@ -90,7 +90,7 @@ set wildignore=*.docx,*.jgp,*.png,*.gif,*.pdf,*.pyc,*.exe,*.exe,*.flv,*.img,*.xl
 call plug#begin('~/.vim/plugged')
 
 " Asynchronous Lint Engine
-  Plug 'dense-analysis/ale', { 'do': 'pip install ruff flake8 isort yapf black' }
+  Plug 'dense-analysis/ale', { 'do': 'pip install ruff flake8 isort yapf black bandit pyright' }
 " A tree explorer
   Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' | Plug 'Xuyuanp/nerdtree-git-plugin'
 " Python code folding for Vim
@@ -154,26 +154,24 @@ let g:ale_fixers = {
 \ 'python': [
 \   'isort',
 \   'black',
-\   'yapf',
-\   'ruff',
 \   ],
 \ 'html': ['prettier'],
 \ 'css': ['prettier'],
 \ 'javascript': [
 \   'eslint',
-\   'prettier'
+\   'prettier',
 \   ],
 \ 'javascript.jsx': [
 \   'eslint',
-\   'prettier'
+\   'prettier',
 \   ],
 \ 'typescript': [
 \   'eslint',
-\   'prettier'
+\   'prettier',
 \   ],
 \ 'typescriptreact': [
 \   'eslint',
-\   'prettier'
+\   'prettier',
 \   ],
 \ 'json': ['prettier'],
 \}
@@ -183,12 +181,17 @@ let g:ale_linters = {
 \ 'html': ['htmlhint'],
 \ 'css': ['prettier'],
 \ 'javascript': ['standard'],
-\ 'python': ['ruff'],
+\ 'python': [
+\   'ruff',
+\   'flake8',
+\   'bandit',
+\   'pyright',
+\   ],
 \}
 let g:ale_sign_columns_always = 1
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
-let g:ale_lint_on_enter = 1
+let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
@@ -200,6 +203,15 @@ let g:ale_fix_on_save = 1
 
 " ALE configs for JavaScript Prettier
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none'
+
+" ALE configs for Python flake8
+let g:ale_python_flake8_options = '--max-line-lenght=80 --extend-ignore=E203'
+
+" ALE configs for Python black
+let g:ale_python_black_optins = '--line-lenght=80'
+
+" ALE configs for Python isort
+let g:ale_python_isort_options = '--profile black -l 80'
 
 " Enable completion where available.
 " This setting must be set before ALE is loaded.

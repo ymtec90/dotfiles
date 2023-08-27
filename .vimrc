@@ -105,8 +105,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'davidhalter/jedi-vim', { 'do': 'pip install jedi' }
 " Search files and buffers
   Plug 'ctrlpvim/ctrlp.vim'
-" Instant Markdown previews
-  Plug 'instant-markdown/vim-instant-markdown', { 'for': 'markdown', 'do': 'yarn install' }
 " Bufferline plugin
   Plug 'bling/vim-bufferline'
 " Airline plugin for manage Vim status line
@@ -133,6 +131,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'AndrewRadev/tagalong.vim'
 " Vim-jsx-pretty for React Support
   Plug 'maxmellon/vim-jsx-pretty'
+" Plugin vim-fugitive for git interaction in Vim
+  Plug 'tpope/vim-fugitive'
+" Markdown preview using nodejs and yarn
+  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 " React Snippets
   Plug 'SirVer/ultisnips'
   Plug 'mlaursen/vim-react-snippets'
@@ -140,6 +142,17 @@ call plug#begin('~/.vim/plugged')
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 " Bracey plugin for live html, css and javascript editing in Vim
   Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
+" Snippets full configuration
+" YouCompleteMe plugin
+  Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --all' }
+" Deoplete
+  Plug 'Shougo/deoplete.nvim', { 'do': 'pip install msgpack pynvim' }
+  Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'roxma/nvim-yarp', { 'do': 'pip install -r requirements.txt' }
+" Easycomplete
+  Plug 'jayli/vim-easycomplete'
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
 
 call plug#end()
 
@@ -205,13 +218,13 @@ let g:ale_fix_on_save = 1
 let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none'
 
 " ALE configs for Python flake8
-let g:ale_python_flake8_options = '--max-line-lenght=80 --extend-ignore=E203'
+let g:ale_python_flake8_options = '--max-line-lenght=79 --extend-ignore=E203'
 
 " ALE configs for Python black
-let g:ale_python_black_optins = '--line-lenght=80'
+let g:ale_python_black_optins = '--line-lenght=79'
 
 " ALE configs for Python isort
-let g:ale_python_isort_options = '--profile black -l 80'
+let g:ale_python_isort_options = '--profile black -l 79'
 
 " Enable completion where available.
 " This setting must be set before ALE is loaded.
@@ -254,6 +267,9 @@ let g:calendar_diary_list=[
       \ 'path':$HOME.'/Documentos/vimwiki/diary',
       \ 'ext':'.wiki'}
       \ ]
+
+" Enabling Deoplete from the start
+let g:deoplete#enable_at_startup = 1
 
 " }}}
 
@@ -337,11 +353,13 @@ inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
 
-" Map the TAB key to move to the next buffer
+" Buffers mappings for a good navigation
+" Map the [+b to move to the next buffer
 nnoremap [b :bn<CR>
-
-" Map the combination Shift-TAB to move to previous buffer
+" Map the combination ]+b to move to previous buffer
 nnoremap ]b :bp<CR>
+" Map leader+bd to close the current buffer (it'll fail if unsaved)
+nnoremap <leader>bd :bd<CR>
 
 " Map the <F8> to toggle the calendar-tree
 nnoremap <F8> :Calendar<CR>
@@ -372,6 +390,12 @@ nnoremap [r :ALEPreviousWrap<CR>
 nnoremap <F9> :Bracey<CR>
 " To stop Bracey
 nnoremap <F12> :BraceyStop<CR>
+
+" EasyComplete jumping mappings
+noremap gr :EasyCompleteReferece<CR>
+noremap gd :EasyCompleteGotoDefinition<CR>
+noremap rn :EasyCompleteRename<CR>
+noremap gb :BackToOriginalBuffer<CR>
 
 " }}}
 

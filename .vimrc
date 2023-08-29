@@ -71,7 +71,7 @@ set history=1000
 "set background=dark
 
 " Set the color scheme.
-colorscheme zenburn
+colorscheme onehalfdark
 
 " Enable auto completion menu after pressing TAB.
 set wildmenu
@@ -142,19 +142,19 @@ call plug#begin('~/.vim/plugged')
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 " Bracey plugin for live html, css and javascript editing in Vim
   Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
-" Snippets full configuration
-" YouCompleteMe plugin
-  Plug 'ycm-core/YouCompleteMe', { 'do': 'python3 install.py --all' }
-" Deoplete
-  Plug 'Shougo/deoplete.nvim', { 'do': 'pip install msgpack pynvim' }
+" Wakatime plugin for productive metrics
+  Plug 'wakatime/vim-wakatime'
+" Deoplete pluin completions
+  Plug 'Shougo/deoplete.nvim', {'do': 'pip install pynvim'}
+  Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
-  Plug 'roxma/nvim-yarp', { 'do': 'pip install -r requirements.txt' }
-" Easycomplete
-  Plug 'jayli/vim-easycomplete'
-  Plug 'SirVer/ultisnips'
-  Plug 'honza/vim-snippets'
+" Todo and fixme highlighting
+  Plug 'sakshamgupta05/vim-todo-highlight'
 
 call plug#end()
+
+" Enable deoplete plugin
+let g:deoplete#enable_at_statup = 1
 
 " See the docstrings for folded code by SimpylFold
 let g:SimpylFold_docstring_preview = 1
@@ -267,9 +267,6 @@ let g:calendar_diary_list=[
       \ 'path':$HOME.'/Documentos/vimwiki/diary',
       \ 'ext':'.wiki'}
       \ ]
-
-" Enabling Deoplete from the start
-let g:deoplete#enable_at_startup = 1
 
 " }}}
 
@@ -391,11 +388,8 @@ nnoremap <F9> :Bracey<CR>
 " To stop Bracey
 nnoremap <F12> :BraceyStop<CR>
 
-" EasyComplete jumping mappings
-noremap gr :EasyCompleteReferece<CR>
-noremap gd :EasyCompleteGotoDefinition<CR>
-noremap rn :EasyCompleteRename<CR>
-noremap gb :BackToOriginalBuffer<CR>
+" Mapping for the omnifunc
+inoremap .. <c-x><c-o>
 
 " }}}
 

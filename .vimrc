@@ -1,12 +1,22 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
+"               
+"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
+"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
+"               ██║   ██║██║██╔████╔██║██████╔╝██║     
+"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║     
+"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
+"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
+"               
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
+
 " Disable compatibility with vi which can cause unexpected issues.
 set nocompatible
 
-" Enable type file detection. Vim will be able to try to detect the type of file in use.
+" Enable type file detection. Vim will be able to try to detect the type of file is use.
 filetype on
 
 " Enable plugins and load plugin for the detected file type.
 filetype plugin on
-set omnifunc=syntaxcomplete#Complete
 
 " Load an indent file for the detected file type.
 filetype indent on
@@ -14,14 +24,17 @@ filetype indent on
 " Turn syntax highlighting on.
 syntax on
 
-" Add hybrid numbers to each line on the left-hand side.
+" Setup colorscheme
+colorscheme molokai
+
+" Add numbers to the file.
 set number relativenumber
 
 " Highlight cursor line underneath the cursor horizontally.
 set cursorline
 
 " Highlight cursor line underneath the cursor vertically.
-" set cursorcolumn
+"set cursorcolumn
 
 " Set shift width to 4 spaces.
 set shiftwidth=4
@@ -34,15 +47,20 @@ set expandtab
 
 " Do not save backup files.
 set nobackup
+set nowritebackup
+
+" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
 
 " Do not let cursor scroll below or above N number of lines when scrolling.
 set scrolloff=10
 
-" Do not wrap lines. Allow long lines to extend as far as the line goes.
-set nowrap
-
-" While searching though a file incrementally highlight matching characters as
-" you type.
+" While searching though a file incrementally highlight matching characters as you type.
 set incsearch
 
 " Ignore capital letters during search.
@@ -64,14 +82,8 @@ set showmatch
 " Use highlighting when doing a search.
 set hlsearch
 
-" Set commands to save in history default number is 20.
+" Set the commands to save in history default number is 20.
 set history=1000
-
-" Set the background tone.
-"set background=dark
-
-" Set the color scheme.
-colorscheme onehalfdark
 
 " Enable auto completion menu after pressing TAB.
 set wildmenu
@@ -81,209 +93,60 @@ set wildmode=list:longest
 
 " There are certain files that we would never want to edit with Vim.
 " Wildmenu will ignore files with these extensions.
-set wildignore=*.docx,*.jgp,*.png,*.gif,*.pdf,*.pyc,*.exe,*.exe,*.flv,*.img,*.xlsx
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
-" PLUGINS ---------------------------------------------------------------{{{
-
-" Plugin code goes here.
+" PLUGINS ---------------------------------------------------------------- {{{
 
 call plug#begin('~/.vim/plugged')
 
-" Asynchronous Lint Engine
-  Plug 'dense-analysis/ale', { 'do': 'pip install ruff flake8 isort yapf black bandit pyright' }
-" A tree explorer
-  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight' | Plug 'Xuyuanp/nerdtree-git-plugin'
-" Python code folding for Vim
-  Plug 'tmhedberg/SimpylFold'
-" An alternative indentation script for python
-  Plug 'vim-scripts/indentpython.vim'
-" Syntax highlighting
-  Plug 'sheerun/vim-polyglot'
-" Async completion framework made ease
-  Plug 'maralla/completor.vim', { 'do': 'pip install jedi' }
-" Use the jedi autocompletion library
-  Plug 'davidhalter/jedi-vim', { 'do': 'pip install jedi' }
-" Search files and buffers
-  Plug 'ctrlpvim/ctrlp.vim'
-" Bufferline plugin
-  Plug 'bling/vim-bufferline'
-" Airline plugin for manage Vim status line
-  Plug 'vim-airline/vim-airline'
-" Airline themes
-  Plug 'vim-airline/vim-airline-themes'
-" Provides support for expanding abbreviations
-  Plug 'mattn/emmet-vim'
-" Prettier plugin for Vim
-  Plug 'prettier/vim-prettier'
-" Vim CSS Colors - highlight the css colors values
-  Plug 'ap/vim-css-color'
-" Update Vim's built-in css to support CSS3
-  Plug 'hail2u/vim-css3-syntax'
-" JavaScript highlighting and improved indentation
-  Plug 'pangloss/vim-javascript'
-" VimWiki a personal wiki for Vim
-  Plug 'vimwiki/vimwiki'
-" Calendar-vim for integrate with VimWiki
-  Plug 'https://github.com/mattn/calendar-vim'
-" Vim-Closetag plugin for closing html tags
-  Plug 'alvan/vim-closetag'
-" Vim tagalong for matching the changes in the html tags
-  Plug 'AndrewRadev/tagalong.vim'
-" Vim-jsx-pretty for React Support
-  Plug 'maxmellon/vim-jsx-pretty'
-" Plugin vim-fugitive for git interaction in Vim
-  Plug 'tpope/vim-fugitive'
-" Markdown preview using nodejs and yarn
-  Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
-" React Snippets
-  Plug 'SirVer/ultisnips'
-  Plug 'mlaursen/vim-react-snippets'
-" Tern_for_VIM for Angular support
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-" Bracey plugin for live html, css and javascript editing in Vim
-  Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
-" Wakatime plugin for productive metrics
+  Plug 'preservim/nerdtree'
+
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
   Plug 'wakatime/vim-wakatime'
-" Deoplete pluin completions
-  Plug 'Shougo/deoplete.nvim', {'do': 'pip install pynvim'}
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-" Todo and fixme highlighting
-  Plug 'sakshamgupta05/vim-todo-highlight'
+
+  Plug 'nvim-tree/nvim-web-devicons'
+
+  Plug 'mattn/emmet-vim'
+
+  Plug 'alvan/vim-closetag'
+
+  Plug 'AndrewRadev/tagalong.vim'
+
+  Plug 'ap/vim-css-color'
+
+  Plug 'prettier/vim-prettier'
+
+  Plug 'pangloss/vim-javascript'
+
+  Plug 'leafgarland/typescript-vim'
+
+  Plug 'MaxMEllon/vim-jsx-pretty'
+
+  Plug 'ternjs/tern_for_vim'
+  
+  Plug 'bling/vim-bufferline'
 
 call plug#end()
 
-" Enable deoplete plugin
-let g:deoplete#enable_at_statup = 1
-
-" See the docstrings for folded code by SimpylFold
-let g:SimpylFold_docstring_preview = 1
-
-" Enable ALE fixers
-let g:ale_javascript_eslint_use_global = 1
-let g:jsx_ext_required = 0
-let g:ale_fixers = {
-\ '*': ['remove_trailing_lines', 'trim_whitespace'],
-\ 'python': [
-\   'isort',
-\   'black',
-\   ],
-\ 'html': ['prettier'],
-\ 'css': ['prettier'],
-\ 'javascript': [
-\   'eslint',
-\   'prettier',
-\   ],
-\ 'javascript.jsx': [
-\   'eslint',
-\   'prettier',
-\   ],
-\ 'typescript': [
-\   'eslint',
-\   'prettier',
-\   ],
-\ 'typescriptreact': [
-\   'eslint',
-\   'prettier',
-\   ],
-\ 'json': ['prettier'],
-\}
-
-" Enable ALE linters
-let g:ale_linters = {
-\ 'html': ['htmlhint'],
-\ 'css': ['prettier'],
-\ 'javascript': ['standard'],
-\ 'python': [
-\   'ruff',
-\   'flake8',
-\   'bandit',
-\   'pyright',
-\   ],
-\}
-let g:ale_sign_columns_always = 1
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_text_changed = 'never'
-highlight ALEErrorSign ctermbg=NONE ctermfg=red
-highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
-let g:ale_linters_explicit = 1
-let g:ale_lint_on_save = 1
-
-" Set this variable to 1 to fix files when you save them.
-let g:ale_fix_on_save = 1
-
-" ALE configs for JavaScript Prettier
-let g:ale_javascript_prettier_options = '--single-quote --trailing-comma none'
-
-" ALE configs for Python flake8
-let g:ale_python_flake8_options = '--max-line-lenght=79 --extend-ignore=E203'
-
-" ALE configs for Python black
-let g:ale_python_black_optins = '--line-lenght=79'
-
-" ALE configs for Python isort
-let g:ale_python_isort_options = '--profile black -l 79'
-
-" Enable completion where available.
-" This setting must be set before ALE is loaded.
-"
-" You should not turn this setting on if you wish to use ALE as a completion
-" source for other completion plugins, like Deoplete.
-let g:ale_completion_enable = 1
-
-" Avoid conflict between completor and jedi-vim
-let g:jedi#completions_enabled = 0
-
-" Set vim-airline to use vim-devicons
-let g:airline_powerline_fonts = 1
-
-" Selecting the status line theme
-let g:airline_theme='base16'
-
-" Configuring the vim-bufferline
-let g:bufferline_echo = 0
-
-" Configuration of the tab line
-let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_set = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-
-" Setting the emmet-vim leader key
-let g:user_emmet_leader_key = ','
-
-" Set the vimwiki path
-let g:vimwiki_list = [{'path':'~/Documentos/vimwiki/'}]
-
-" Set the sequence of icons for the to do list in vimwiki
-let g:vimwiki_listsyms='✗○◐●✓'
-
-" Small configuration for Calendar diary
-let g:calendar_diary_list=[
-      \ {'name':'diary',
-      \ 'path':$HOME.'/Documentos/vimwiki/diary',
-      \ 'ext':'.wiki'}
-      \ ]
+" Change the emmet-vim leader key
+let g:user_emmet_leader_key=','
 
 " }}}
 
+" MAPPINGS --------------------------------------------------------------- {{{
 
-" MAPPINGS --------------------------------------------------------------{{{
+" Press \\ to jump back to the last cursor position.
+nnoremap <leader>, ``
 
-" Mappings code goes here.
+" Press ,p to print the current file to the default printer from a Linux operating system.
+" View available printers:   lpstat -v
+" Set default printer:       lpoptions -d <printer_name>
+" <silent> means do not display output.
+nnoremap <silent> <leader>p :%w !lp<CR>
 
-" Type jj or jk to exit insert mode quickly.
-inoremap jj <esc>
-inoremap jk <esc>
-
-" Set the backslash as the leader key.
-let mapleader = ","
-
-" Press ,, to turn off search highlighting
-nnoremap <leader>, :nohlsearch<CR>
+" Type jj to exit insert mode quickly and save the file
+inoremap jj <Esc>:w<CR>
 
 " Press the space bar to type the : character in command mode.
 nnoremap <space> :
@@ -293,7 +156,7 @@ nnoremap <space> :
 nnoremap o o<esc>
 nnoremap O O<esc>
 
-" Center the cursor vertically when moving to the next word during search.
+" Center the cursor vertically when moving to the next word during a search.
 nnoremap n nzz
 nnoremap N Nzz
 
@@ -301,105 +164,144 @@ nnoremap N Nzz
 nnoremap Y y$
 
 " Map the F5 key to run a Python script inside Vim.
-" I map F5 to a chain of commands here.
+" We map F5 to a chain of commands here.
 " :w saves the file.
 " <CR> (carriage return) is like pressing the enter key.
 " !clear runs the external clear screen command.
 " !python3 % executes the current file with Python.
-nnoremap <F5> :w <CR>:!clear <CR>:!python3 % <CR>
-
-" Map the <F6> key to run a HTML file inside the browser
-nnoremap <F6> :w <CR>:!clear <CR>:!xdg-open %<CR>
-
-" Map the <F7> key to run a JavaScript file inside Vim.
-nnoremap <F7> :w <CR>:!clear <CR>:!/usr/bin/node %<CR>
+nnoremap <f5> :w <CR>:!clear <CR>:!python3 % <CR>
 
 " You can split the window in Vim by typing :split or :vsplit.
-" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or CTRL+l.
-nnoremap <leader>s :split<CR>
-nnoremap <leader>v :vsplit<CR>
+" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h, or CTRL+l.
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
 " Resize split windows using arrow keys by pressing:
-" CTRL+UP, CTRL+DOWN, CTRL+LEFT or CTRL+RIGHT.
-nnoremap <c-up> <c-w>+
-nnoremap <c-down> <c-w>-
-nnoremap <c-left> <c-w>>
-nnoremap <c-right> <c-w><
+" CTRL+UP, CTRL+DOWN, CTRL+LEFT, or CTRL+RIGHT.
+noremap <c-up> <c-w>+
+noremap <c-down> <c-w>-
+noremap <c-left> <c-w>>
+noremap <c-right> <c-w><
 
 " NERDTree specific mappings.
 " Map the F3 key to toggle NERDTree open and close.
-nnoremap <F3> :NERDTreeToggle<CR>
+nnoremap <F3> :NERDTreeToggle<cr>
 
-" Have NERDTree ignore certain files and directories.
+" Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 
-" Disable arrow keys in normal mode
+" Disabling arrow keys in normal mode
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
-nnoremap <Left> <Nop>
 nnoremap <Right> <Nop>
+nnoremap <Left> <Nop>
 
-" Enable autopair for brackets
-inoremap " ""<Left>
-inoremap ' ''<Left>
-inoremap ( ()<Left>
-inoremap [ []<Left>
-inoremap { {}<Left>
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Buffers mappings for a good navigation
-" Map the [+b to move to the next buffer
-nnoremap [b :bn<CR>
-" Map the combination ]+b to move to previous buffer
-nnoremap ]b :bp<CR>
-" Map leader+bd to close the current buffer (it'll fail if unsaved)
-nnoremap <leader>bd :bd<CR>
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" Map the <F8> to toggle the calendar-tree
-nnoremap <F8> :Calendar<CR>
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Manage sessions easily
-" To make a session
-nnoremap <leader>ms :mks!<CR>
-" To restore the last session
-nnoremap <leader>rs :so Session.vim<CR>
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
-" Easily left Vim
-nnoremap <leader>q :q!<CR>
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-" Enabling and disabling spellcheck
-" Enable
-nnoremap <leader>sy :set spell<CR>
-" Disable
-nnoremap <leader>sn :set nospell<CR>
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
 
-" Mapping for error handling with ALE
-nnoremap <leader>af :ALEFix<CR>
-" Move between linting errors
-nnoremap ]r :ALENextWrap<CR>
-nnoremap [r :ALEPreviousWrap<CR>
+" Formatting selected code
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
-" Bracey mappings for live editing
-" To start Bracey
-nnoremap <F9> :Bracey<CR>
-" To stop Bracey
-nnoremap <F12> :BraceyStop<CR>
+" Applying code actions to the selected code block
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-" Mapping for the omnifunc
-inoremap .. <c-x><c-o>
+" Remap keys for applying code actions at the cursor position
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>as  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+" Run the Code Lens action on the current line
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Use CTRL-S for selections ranges
+" Requires 'textDocument/selectionRange' support of language server
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Mappings for CoCList
+" Show all diagnostics
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+" Map for the :Prettier command
+nnoremap <leader>p :Prettier<CR>
+
+" Mapping for buffer management
+nnoremap .n :bnext<CR>
+nnoremap .p :bprev<CR>
+nnoremap .bd :bd<CR>
 
 " }}}
 
+" VIMSCRIPT -------------------------------------------------------------- {{{
 
-" VIMSCRIPT -------------------------------------------------------------{{{
-
-" VIMSCRIPT goes here
-
-" This will enable code folding
-" Use the marker method of folding.
+" Enable the marker method of folding.
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
@@ -408,7 +310,7 @@ augroup END
 " If the current file type is HTML, set indentation to 2 spaces.
 autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
 
-" If Vim version is equal or greater than 7.3 enable undofile.
+" If Vim version is equal to or greater than 7.3 enable undofile.
 " This allows you to undo changes to a file even after saving it.
 if version >= 703
     set undodir=~/.vim/backup
@@ -416,80 +318,121 @@ if version >= 703
     set undoreload=10000
 endif
 
-" You can split window into sections by typing `:split` or `:vsplit`.
-" Display cursorline and cursor column ONLY in active window.
-"augroup cursor_off
-"   autocmd!
-"   autocmd WinLeave * set nocursorline nocursorcolumn
-"   autocmd WinEnter * set cursorline cursorcolumn
-"augroup END
+" You can split a window into sections by typing `:split` or `:vsplit`.
+" Display cursorline and cursorcolumn ONLY in active window.
+augroup cursor_off
+    autocmd!
+    autocmd WinLeave * set nocursorline nocursorcolumn
+    autocmd WinEnter * set cursorline cursorcolumn
+augroup END
 
 " If GUI version of Vim is running set these options.
 if has('gui_running')
 
-    " Set the backgroud tone.
+    " Set the background tone.
     set background=dark
 
     " Set the color scheme.
     colorscheme molokai
 
     " Set a custom font you have installed on your computer.
-    " Syntax: set guifont=<font_name>\ <font_weight>\ <size>
-    set guifont=DroidSansMono\ Nerd\ Font\ 11
+    " Syntax: <font_name>\ <weight>\ <size>
+    set guifont=Monospace\ Regular\ 12
 
     " Display more of the file by default.
     " Hide the toolbar.
     set guioptions-=T
 
-    " Hide the left-side scroll bar.
+    " Hide the the left-side scroll bar.
     set guioptions-=L
 
-    " Hide the right-side scroll bar.
+    " Hide the the left-side scroll bar.
     set guioptions-=r
 
-    " Hide the menu bar.
+    " Hide the the menu bar.
     set guioptions-=m
 
-    " Hide the bottom scroll bar.
+    " Hide the the bottom scroll bar.
     set guioptions-=b
 
-    " Map the F4 key to toggle the menu, toolbar and scrollbar.
-    " <Bar> is the pip character.
+    " Map the F4 key to toggle the menu, toolbar, and scroll bar.
+    " <Bar> is the pipe character.
     " <CR> is the enter key.
     nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
-        \set guiptions-=mTr<Bar>
+        \set guioptions-=mTr<Bar>
         \else<Bar>
+        \set guioptions+=mTr<Bar>
         \endif<CR>
 
 endif
 
-" Adding UTF-8 Support
-set encoding=utf8
-
-" Automatic toggle between line numbers mode
 augroup numbertoggle
     autocmd!
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
-" Automatic update the vimwiki diary index
-command! Diary VimwikiDiaryIndex
-augroup vimwikigroup
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+augroup mygroup
   autocmd!
-  " automatically update links on read diary
-  autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+  " Setup formatexpr specified filetype(s)
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+
+" Remap <C-f> and <C-b> to scroll float windows/popups
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Add `:Format` command to format current buffer
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" Add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 " }}}
 
-
-" STATUS LINE -----------------------------------------------------------{{{
-
-" Status bar code goes here.
+" STATUS LINE ------------------------------------------------------------ {{{
 
 " Clear status line when vimrc is reloaded.
 set statusline=
+
+" Add (Neo)Vim's native statusline support
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Status line left side.
 set statusline+=\ %F\ %M\ %Y\ %R
@@ -503,4 +446,4 @@ set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 " Show the status on the second to last line.
 set laststatus=2
 
-"}}}
+" }}}

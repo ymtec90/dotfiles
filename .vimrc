@@ -37,10 +37,10 @@ set cursorline
 "set cursorcolumn
 
 " Set shift width to 4 spaces.
-set shiftwidth=4
+set shiftwidth=2
 
 " Set tab width to 4 columns.
-set tabstop=4
+set tabstop=2
 
 " Use space characters instead of tabs.
 set expandtab
@@ -99,9 +99,13 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 call plug#begin('~/.vim/plugged')
 
-  Plug 'preservim/nerdtree'
+  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+  Plug 'sheerun/vim-polyglot'
 
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+  Plug 'honza/vim-snippets'
 
   Plug 'wakatime/vim-wakatime'
 
@@ -115,7 +119,9 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'ap/vim-css-color'
 
-  Plug 'prettier/vim-prettier'
+  Plug 'prettier/vim-prettier',  {
+  \ 'do': 'yarn install --frozen-lockfile --production',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
   Plug 'pangloss/vim-javascript'
 
@@ -127,17 +133,68 @@ call plug#begin('~/.vim/plugged')
   
   Plug 'bling/vim-bufferline'
 
+  Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
+
+  Plug 'vim-airline/vim-airline'
+
+  Plug 'vim-airline/vim-airline-themes'
+
+  Plug 'jiangmiao/auto-pairs'
+
+  Plug 'christoomey/vim-tmux-navigator'
+
+  Plug 'vimwiki/vimwiki'
+
+  Plug 'mattn/calendar-vim'
+
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
+
+  Plug 'catppuccin/vim'
+
 call plug#end()
 
 " Change the emmet-vim leader key
-let g:user_emmet_leader_key=','
+let g:user_emmet_leader_key = ','
+
+" Airline and Bufferline configuration
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#bufferline#enabled = 0
+let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_theme = 'minimalist'
+let g:bufferline_echo = 0
+
+" Set the vimwiki path
+let g:vimwiki_list = [{'path':'~/Documentos/vimwiki/'}]
+
+" Set the sequence of icons for the to do list in vimwiki
+let g:vimwiki_listsyms='✗○◐●✓'
+
+" Small configuration for Calendar diary
+let g:calendar_diary_list=[
+      \ {'name':'diary',
+      \ 'path':$HOME.'/Documentos/vimwiki/diary',
+      \ 'ext':'.wiki'}
+      \ ]
+" Preview windown for fzf plugin
+let g:fzf_preview_window = ['right,50%', 'ctrl-/']
 
 " }}}
 
 " MAPPINGS --------------------------------------------------------------- {{{
 
-" Press \\ to jump back to the last cursor position.
+" Set comma as the leader key
+let mapleader = ","
+
+" Press ,, to jump back to the last cursor position.
 nnoremap <leader>, ``
+
+" Press ,w to save changes in the file
+nnoremap <leader>w :w<CR>
+
+" Press ,q to exit Vim
+nnoremap <leader>q :q!<CR>
 
 " Press ,p to print the current file to the default printer from a Linux operating system.
 " View available printers:   lpstat -v
@@ -290,12 +347,26 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 " Map for the :Prettier command
-nnoremap <leader>p :Prettier<CR>
+"nnoremap .up :Prettier<CR>
 
 " Mapping for buffer management
-nnoremap .n :bnext<CR>
-nnoremap .p :bprev<CR>
-nnoremap .bd :bd<CR>
+nnoremap <leader>n :bnext<CR>
+nnoremap <leader>p :bprev<CR>
+nnoremap <leader>x :bd<CR>
+
+" Map the <F8> to toggle the calendar-tree
+nnoremap <F8> :Calendar<CR>
+
+" Map the <F9> to start the Bracey server
+nnoremap <F9> :Bracey<CR>
+
+" Map the <F12> to stop the Bracey server
+nnoremap <F12> :BraceyStop<CR>
+
+" Mappings for fzf commands
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fc :Colors<CR>
 
 " }}}
 
@@ -306,9 +377,6 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-
-" If the current file type is HTML, set indentation to 2 spaces.
-autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
 
 " If Vim version is equal to or greater than 7.3 enable undofile.
 " This allows you to undo changes to a file even after saving it.
@@ -422,28 +490,40 @@ command! -nargs=? Fold :call     CocAction('fold', <f-args>)
 " Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+" :Prettier now uses coc-prettier to format the buffer
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+
+" Sets the tabstop and shiftwidth to 4 only for python files
+augroup python_indent
+  autocmd!
+  autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
+augroup END
+
 " }}}
 
 " STATUS LINE ------------------------------------------------------------ {{{
 
 " Clear status line when vimrc is reloaded.
-set statusline=
+"set statusline=
+
+" Status line left side.
+"set statusline+=\ %F\ %M\ %Y\ %R
+
+" Use a divider to separate the left side from the right side.
+"set statusline+=%=
 
 " Add (Neo)Vim's native statusline support
 " NOTE: Please see `:h coc-status` for integrations with external plugins that
 " provide custom statusline: lightline.vim, vim-airline
-set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Status line left side.
-set statusline+=\ %F\ %M\ %Y\ %R
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Use a divider to separate the left side from the right side.
-set statusline+=%=
+"set statusline+=%=
 
 " Status line right side.
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
+"set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
 
 " Show the status on the second to last line.
-set laststatus=2
+"set laststatus=2
 
 " }}}

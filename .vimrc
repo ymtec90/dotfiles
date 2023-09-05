@@ -151,6 +151,8 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'catppuccin/vim'
 
+  Plug 'itchyny/vim-cursorword'
+
 call plug#end()
 
 " Change the emmet-vim leader key
@@ -367,6 +369,10 @@ nnoremap <F12> :BraceyStop<CR>
 nnoremap <leader>ff :Files<CR>
 nnoremap <leader>fb :Buffers<CR>
 nnoremap <leader>fc :Colors<CR>
+
+" Spellcheck mappings
+nnoremap <leader>sy :set spell<CR>
+nnoremap <leader>sn :set nospell<CR>
 
 " }}}
 

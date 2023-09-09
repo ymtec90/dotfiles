@@ -25,7 +25,7 @@ filetype indent on
 syntax on
 
 " Setup colorscheme
-colorscheme molokai
+colorscheme deus
 
 " Add numbers to the file.
 set number relativenumber
@@ -59,6 +59,9 @@ set signcolumn=yes
 
 " Do not let cursor scroll below or above N number of lines when scrolling.
 set scrolloff=10
+
+" Do not wrap lines. Allow long lines to extend as far as the line goes.
+set nowrap
 
 " While searching though a file incrementally highlight matching characters as you type.
 set incsearch
@@ -149,9 +152,21 @@ call plug#begin('~/.vim/plugged')
 
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 
-  Plug 'catppuccin/vim'
+  Plug 'antoinemadec/FixCursorHold.nvim'
 
   Plug 'itchyny/vim-cursorword'
+
+  Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
+
+  Plug 'tpope/vim-fugitive'
+
+  Plug 'tpope/vim-surround'
+
+  Plug 'tpope/vim-commentary'
+
+  Plug 'mattn/vim-gist'
+
+  Plug 'luochen1990/rainbow'
 
 call plug#end()
 
@@ -181,6 +196,12 @@ let g:calendar_diary_list=[
       \ ]
 " Preview windown for fzf plugin
 let g:fzf_preview_window = ['right,50%', 'ctrl-/']
+
+" Fix cursor hold delay
+let g:cursorhold_updatetime = 100
+
+" Rainbow parentheses
+let g:rainbow_active = 1
 
 " }}}
 

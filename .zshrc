@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="half-life"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -73,7 +73,8 @@ COMPLETION_WAITING_DOTS="true"
 plugins=(git
 	zsh-autosuggestions
 	zsh-syntax-highlighting
-    zsh-vi-mode)
+    k
+    z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -104,6 +105,9 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export PATH="$HOME/.local/bin/:$PATH"
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -199,3 +203,14 @@ video_conv() {
     # ogg (if you want to support older Firefox)
     # ffmpeg2theora $IN -o $OUT.ogv -x 640 -y 360 --videoquality 5 --audioquality 0  --frontend
 }
+
+# Aliases for xrandr command
+alias vgavid="xrandr --output VGA-1 --auto --right-of LVDS-1"
+alias hdvid="xrandr --output HDMI-1 --auto --right-of LVDS-1"
+
+# Another aliases
+alias vimrc="vim ~/.vimrc"
+alias zshrc="vim ~/.zshrc"
+alias tmxrc="vim ~/.tmux.conf"
+alias vi="vim"
+alias reload="exec zsh"

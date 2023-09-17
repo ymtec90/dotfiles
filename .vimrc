@@ -1,199 +1,162 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
-"               
-"               ██╗   ██╗██╗███╗   ███╗██████╗  ██████╗
-"               ██║   ██║██║████╗ ████║██╔══██╗██╔════╝
-"               ██║   ██║██║██╔████╔██║██████╔╝██║     
-"               ╚██╗ ██╔╝██║██║╚██╔╝██║██╔══██╗██║     
-"                ╚████╔╝ ██║██║ ╚═╝ ██║██║  ██║╚██████╗
-"                 ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝
-"               
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""               
-
-" Disable compatibility with vi which can cause unexpected issues.
+" Avoid problems disabling vi compatibility
 set nocompatible
 
-" Enable type file detection. Vim will be able to try to detect the type of file is use.
+" Enable filetype detection for enable plugins and indentation
 filetype on
-
-" Enable plugins and load plugin for the detected file type.
 filetype plugin on
-
-" Load an indent file for the detected file type.
 filetype indent on
 
-" Turn syntax highlighting on.
+" Turn on syntax highlighting
 syntax on
 
-" Setup colorscheme
-colorscheme deus
+" Set the colorscheme to tokyonight
+set termguicolors
+let g:tokyonight_style = 'storm' " available: night, storm
+let g:tokyonight_enable_italic = 1
+colorscheme tokyonight
 
-" Add numbers to the file.
+" Add number and relative number for navigation
 set number relativenumber
 
-" Highlight cursor line underneath the cursor horizontally.
+" Higlight the cursorline underneath the cursor horizontally
 set cursorline
 
-" Highlight cursor line underneath the cursor vertically.
-"set cursorcolumn
-
-" Set shift width to 4 spaces.
+" Configure shift width and tab width to 2 spaces, also use space instead
+" of Tabs
 set shiftwidth=2
-
-" Set tab width to 4 columns.
 set tabstop=2
-
-" Use space characters instead of tabs.
 set expandtab
 
-" Do not save backup files.
+" Don't save backups
 set nobackup
 set nowritebackup
 
-" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-" delays and poor user experience
+" Low update time to improve user experience
 set updatetime=300
 
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved
+" Show signcolumn
 set signcolumn=yes
 
-" Do not let cursor scroll below or above N number of lines when scrolling.
+" Don't let cursor scroll below or above 10 line when scrolling
 set scrolloff=10
 
-" Do not wrap lines. Allow long lines to extend as far as the line goes.
+" Don't wrap lines
 set nowrap
 
-" While searching though a file incrementally highlight matching characters as you type.
+" Search definitions
 set incsearch
-
-" Ignore capital letters during search.
+set hlsearch
+set showmatch
 set ignorecase
-
-" Override the ignorecase option if searching for capital letters.
-" This will allow you to search specifically for capital letters.
 set smartcase
 
-" Show partial command you type in the last line of the screen.
+" Show partial command you type in the last line
 set showcmd
 
-" Show the mode you are on the last line.
+" Show the current mode in the last line
 set showmode
 
-" Show matching words during a search.
-set showmatch
-
-" Use highlighting when doing a search.
-set hlsearch
-
-" Set the commands to save in history default number is 20.
-set history=1000
-
-" Enable auto completion menu after pressing TAB.
+" Enable autocompletion menu after pressing TAB and make it similar to
+" Bash completion. Also ignore certain file types.
 set wildmenu
-
-" Make wildmenu behave like similar to Bash completion.
 set wildmode=list:longest
-
-" There are certain files that we would never want to edit with Vim.
-" Wildmenu will ignore files with these extensions.
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
-" PLUGINS ---------------------------------------------------------------- {{{
+" PLUGINS ----------------------------------------------------------- {{{
 
 call plug#begin('~/.vim/plugged')
 
-  Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" File/folder navigation plugin
+Plug 'preservim/nerdtree' | Plug 'ryanoasis/vim-devicons' | Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-  Plug 'sheerun/vim-polyglot'
+" Undotree for best undo and redo control
+Plug 'mbbill/undotree'
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Better syntax highlight
+Plug 'sheerun/vim-polyglot'
 
-  Plug 'honza/vim-snippets'
+" Autopairs for brackets and quotes
+Plug 'jiangmiao/auto-pairs'
 
-  Plug 'wakatime/vim-wakatime'
+" FZF enable in Vim
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
 
-  Plug 'nvim-tree/nvim-web-devicons'
+" Underline the current word whenever it appears in the file
+Plug 'itchyny/vim-cursorword'
 
-  Plug 'mattn/emmet-vim'
+" Rainbow brackets
+Plug 'luochen1990/rainbow'
 
-  Plug 'alvan/vim-closetag'
+" Wakatime support for Vim
+Plug 'wakatime/vim-wakatime'
 
-  Plug 'AndrewRadev/tagalong.vim'
+" Airline plugin to have a good status line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'bling/vim-bufferline'
 
-  Plug 'ap/vim-css-color'
+" Python plugins
+Plug 'davidhalter/jedi-vim'
+Plug 'vim-scripts/indentpython.vim'
 
-  Plug 'prettier/vim-prettier',  {
-  \ 'do': 'yarn install --frozen-lockfile --production',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+" Git plugins
+Plug 'tpope/vim-fugitive'
+Plug 'mattn/vim-gist'
 
-  Plug 'pangloss/vim-javascript'
+" Web Development plugins
+Plug 'mattn/emmet-vim'
+Plug 'alvan/vim-closetag'
+Plug 'AndrewRadev/tagalong.vim'
+Plug 'ap/vim-css-color'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'ternjs/tern_for_vim'
+Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
+Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install --frozen-lockfile --production',
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
-  Plug 'leafgarland/typescript-vim'
+" Linters and formatters through the Conquer of Completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'honza/vim-snippets'
 
-  Plug 'MaxMEllon/vim-jsx-pretty'
-
-  Plug 'ternjs/tern_for_vim'
-  
-  Plug 'bling/vim-bufferline'
-
-  Plug 'turbio/bracey.vim', {'do': 'npm install --prefix server'}
-
-  Plug 'vim-airline/vim-airline'
-
-  Plug 'vim-airline/vim-airline-themes'
-
-  Plug 'jiangmiao/auto-pairs'
-
-  Plug 'christoomey/vim-tmux-navigator'
-
-  Plug 'vimwiki/vimwiki'
-
-  Plug 'mattn/calendar-vim'
-
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
-
-  Plug 'antoinemadec/FixCursorHold.nvim'
-
-  Plug 'itchyny/vim-cursorword'
-
-  Plug 'Exafunction/codeium.vim', { 'branch': 'main' }
-
-  Plug 'tpope/vim-fugitive'
-
-  Plug 'tpope/vim-surround'
-
-  Plug 'tpope/vim-commentary'
-
-  Plug 'mattn/vim-gist'
-
-  Plug 'luochen1990/rainbow'
+" Colorschemes and Airline themes
+Plug 'elvessousa/sobrio'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'morhetz/gruvbox'
+Plug 'tomasr/molokai'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'jnurmine/Zenburn'
+Plug 'ayu-theme/ayu-vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'kyoz/purify', { 'rtp': 'vim' }
 
 call plug#end()
 
-" Change the emmet-vim leader key
-let g:user_emmet_leader_key = ','
-
-" Airline and Bufferline configuration
+" Airline and bufferline configurations
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#bufferline#enabled = 0
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_theme = 'minimalist'
+let g:airline_theme = 'tokyonight'
 let g:bufferline_echo = 0
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 
-" Set the vimwiki path
-let g:vimwiki_list = [{'path':'~/Documentos/vimwiki/'}]
+" Have nerdtree ignore certain files and directories.
+let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 
-" Set the sequence of icons for the to do list in vimwiki
-let g:vimwiki_listsyms='✗○◐●✓'
+" Change the emmet-vim leader key
+let g:user_emmet_leader_key = ','
 
-" Small configuration for Calendar diary
-let g:calendar_diary_list=[
-      \ {'name':'diary',
-      \ 'path':$HOME.'/Documentos/vimwiki/diary',
-      \ 'ext':'.wiki'}
-      \ ]
 " Preview windown for fzf plugin
 let g:fzf_preview_window = ['right,50%', 'ctrl-/']
 
@@ -205,42 +168,25 @@ let g:rainbow_active = 1
 
 " }}}
 
-" MAPPINGS --------------------------------------------------------------- {{{
+" MAPPINGS ---------------------------------------------------------- {{{
 
-" Set comma as the leader key
-let mapleader = ","
+" Set space as the leader key
+let mapleader = " "
 
-" Press ,, to jump back to the last cursor position.
-nnoremap <leader>, ``
-
-" Press ,w to save changes in the file
-nnoremap <leader>w :w<CR>
-
-" Press ,q to exit Vim
-nnoremap <leader>q :q!<CR>
-
-" Press ,p to print the current file to the default printer from a Linux operating system.
-" View available printers:   lpstat -v
-" Set default printer:       lpoptions -d <printer_name>
-" <silent> means do not display output.
-nnoremap <silent> <leader>p :%w !lp<CR>
-
-" Type jj to exit insert mode quickly and save the file
-inoremap jj <Esc>:w<CR>
-
-" Press the space bar to type the : character in command mode.
-nnoremap <space> :
+" Press jj to exit insert mode quickly ans save the file
+inoremap jj <ESC>:w<CR>
 
 " Pressing the letter o will open a new line below the current one.
-" Exit insert mode after creating a new line above or below the current line.
-nnoremap o o<esc>
-nnoremap O O<esc>
+" exit insert mode after creating a new line above or below the current
+nnoremap o o<ESC>
+nnoremap O O<ESC>
 
-" Center the cursor vertically when moving to the next word during a search.
+" Center the cursor vertically when moving to the next word during
+" search
 nnoremap n nzz
 nnoremap N Nzz
 
-" Yank from cursor to the end of line.
+" Yank from the cursor to the end of line
 nnoremap Y y$
 
 " Map the F5 key to run a Python script inside Vim.
@@ -251,8 +197,9 @@ nnoremap Y y$
 " !python3 % executes the current file with Python.
 nnoremap <f5> :w <CR>:!clear <CR>:!python3 % <CR>
 
-" You can split the window in Vim by typing :split or :vsplit.
-" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h, or CTRL+l.
+" You can split the window by typing :split or :vsplit
+" Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or
+" CTRL+l
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
@@ -269,14 +216,28 @@ noremap <c-right> <c-w><
 " Map the F3 key to toggle NERDTree open and close.
 nnoremap <F3> :NERDTreeToggle<cr>
 
-" Have nerdtree ignore certain files and directories.
-let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
-
-" Disabling arrow keys in normal mode
+" Disabling arrow keys in normal and insert mode
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Right> <Nop>
 nnoremap <Left> <Nop>
+
+" Mapping for buffer management
+nnoremap [b :bnext<CR>
+nnoremap ]b :bprev<CR>
+nnoremap <leader>bd :bd<CR>
+
+" Map the <F9> to toggle the undo-tree
+nnoremap <F9> :UndotreeToggle<CR>
+
+" Mappings for fzf commands
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fb :Buffers<CR>
+nnoremap <leader>fc :Colors<CR>
+
+" Spellcheck mappings
+nnoremap <leader>sy :set spell<CR>
+nnoremap <leader>sn :set nospell<CR>
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -368,41 +329,17 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-
-" Map for the :Prettier command
-"nnoremap .up :Prettier<CR>
-
-" Mapping for buffer management
-nnoremap <leader>n :bnext<CR>
-nnoremap <leader>p :bprev<CR>
-nnoremap <leader>x :bd<CR>
-
-" Map the <F8> to toggle the calendar-tree
-nnoremap <F8> :Calendar<CR>
-
-" Map the <F9> to start the Bracey server
-nnoremap <F9> :Bracey<CR>
-
-" Map the <F12> to stop the Bracey server
-nnoremap <F12> :BraceyStop<CR>
-
-" Mappings for fzf commands
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fc :Colors<CR>
-
-" Spellcheck mappings
-nnoremap <leader>sy :set spell<CR>
-nnoremap <leader>sn :set nospell<CR>
+" Setup for open yank list
+nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 
 " }}}
 
-" VIMSCRIPT -------------------------------------------------------------- {{{
+" VIMSCRIPT --------------------------------------------------------- {{{
 
-" Enable the marker method of folding.
+" Enable folding in vim files
 augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
 " If Vim version is equal to or greater than 7.3 enable undofile.
@@ -420,46 +357,6 @@ augroup cursor_off
     autocmd WinLeave * set nocursorline nocursorcolumn
     autocmd WinEnter * set cursorline cursorcolumn
 augroup END
-
-" If GUI version of Vim is running set these options.
-if has('gui_running')
-
-    " Set the background tone.
-    set background=dark
-
-    " Set the color scheme.
-    colorscheme molokai
-
-    " Set a custom font you have installed on your computer.
-    " Syntax: <font_name>\ <weight>\ <size>
-    set guifont=Monospace\ Regular\ 12
-
-    " Display more of the file by default.
-    " Hide the toolbar.
-    set guioptions-=T
-
-    " Hide the the left-side scroll bar.
-    set guioptions-=L
-
-    " Hide the the left-side scroll bar.
-    set guioptions-=r
-
-    " Hide the the menu bar.
-    set guioptions-=m
-
-    " Hide the the bottom scroll bar.
-    set guioptions-=b
-
-    " Map the F4 key to toggle the menu, toolbar, and scroll bar.
-    " <Bar> is the pipe character.
-    " <CR> is the enter key.
-    nnoremap <F4> :if &guioptions=~#'mTr'<Bar>
-        \set guioptions-=mTr<Bar>
-        \else<Bar>
-        \set guioptions+=mTr<Bar>
-        \endif<CR>
-
-endif
 
 augroup numbertoggle
     autocmd!
@@ -525,32 +422,5 @@ augroup python_indent
   autocmd!
   autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 augroup END
-
-" }}}
-
-" STATUS LINE ------------------------------------------------------------ {{{
-
-" Clear status line when vimrc is reloaded.
-"set statusline=
-
-" Status line left side.
-"set statusline+=\ %F\ %M\ %Y\ %R
-
-" Use a divider to separate the left side from the right side.
-"set statusline+=%=
-
-" Add (Neo)Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-" Use a divider to separate the left side from the right side.
-"set statusline+=%=
-
-" Status line right side.
-"set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
-
-" Show the status on the second to last line.
-"set laststatus=2
 
 " }}}

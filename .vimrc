@@ -134,6 +134,9 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
 
+" Proper tmux.conf syntax highlight and integration with tmux
+Plug 'tmux-plugins/vim-tmux'
+
 call plug#end()
 
 " Airline and bufferline configurations
@@ -223,8 +226,8 @@ nnoremap <Right> <Nop>
 nnoremap <Left> <Nop>
 
 " Mapping for buffer management
-nnoremap [b :bnext<CR>
-nnoremap ]b :bprev<CR>
+nnoremap <silent> [b :bnext<CR>
+nnoremap <silent> ]b :bprev<CR>
 nnoremap <leader>bd :bd<CR>
 
 " Map the <F9> to toggle the undo-tree
@@ -238,6 +241,9 @@ nnoremap <leader>fc :Colors<CR>
 " Spellcheck mappings
 nnoremap <leader>sy :set spell<CR>
 nnoremap <leader>sn :set nospell<CR>
+
+" Terminal Mappings
+nnoremap <silent> <leader>t :terminal<CR>
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable

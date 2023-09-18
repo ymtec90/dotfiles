@@ -4,8 +4,11 @@ This is the repo where I put the last configurations used in the main applicatio
 ### For now, the following applications have their configurations files in this repo:
 
 1. Vim
-2. Tmux (using tpm as their plugin manager)
+2. Tmux (using tpm plugin manager)
 3. Zsh
+4. i3wm
+
+### Some previews
 
 #### How to setup tmux
 

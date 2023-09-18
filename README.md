@@ -14,15 +14,15 @@ applications in use.
 
 #### Fetch and the i3statusbar
 
-![Fetch](https://github.com/ymtec90/dotfiles/blob/main/images/fetch.png)
+![Fetch](https://github.com/ymtec90/dotfiles/blob/main/images/fetch.png?raw=true)
 
 #### Vim
 
-![Vim](https://github.com/ymtec90/dotfiles/blob/main/images/vim.png)
+![Vim](https://github.com/ymtec90/dotfiles/blob/main/images/vim.png?raw=true)
 
 #### Tmux with stylized status bar (inspired in the gruvbox plugin)
 
-![Tmux](https://github.com/ymtec90/dotfiles/blob/main/images/tmux.png)
+![Tmux](https://github.com/ymtec90/dotfiles/blob/main/images/tmux.png?raw=true)
 
 #### How to setup tmux
 

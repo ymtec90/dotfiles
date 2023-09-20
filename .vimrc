@@ -11,7 +11,7 @@ syntax on
 
 " Set the colorscheme to tokyonight
 set termguicolors
-let g:tokyonight_style = 'storm' " available: night, storm
+let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 1
 colorscheme tokyonight
 
@@ -133,9 +133,16 @@ Plug 'jnurmine/Zenburn'
 Plug 'ayu-theme/ayu-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
+Plug 'dracula/vim', { 'as': 'dracula' }
 
 " Proper tmux.conf syntax highlight and integration with tmux
 Plug 'tmux-plugins/vim-tmux'
+
+" Git  extension
+Plug 'tpope/vim-fugitive'
+
+" Database interaction
+Plug 'tpope/vim-dadbod'
 
 call plug#end()
 
@@ -191,14 +198,6 @@ nnoremap N Nzz
 
 " Yank from the cursor to the end of line
 nnoremap Y y$
-
-" Map the F5 key to run a Python script inside Vim.
-" We map F5 to a chain of commands here.
-" :w saves the file.
-" <CR> (carriage return) is like pressing the enter key.
-" !clear runs the external clear screen command.
-" !python3 % executes the current file with Python.
-nnoremap <f5> :w <CR>:!clear <CR>:!python3 % <CR>
 
 " You can split the window by typing :split or :vsplit
 " Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or

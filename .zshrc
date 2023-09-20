@@ -204,6 +204,19 @@ video_conv() {
     # ffmpeg2theora $IN -o $OUT.ogv -x 640 -y 360 --videoquality 5 --audioquality 0  --frontend
 }
 
+# function to use fzf to selected a specific nvim distro
+function nvims() {
+  items=("defaut" "AstroNvim")
+  config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
+  if [[ -z $config ]]; then
+    echo "Nothing selected"
+    return 0
+  elif [[ $config == "default" ]]; then
+    config=""
+  fi
+  NVIM_APPNAME=$config nvim $@
+}
+
 # Aliases for xrandr command
 alias vgavid="xrandr --output VGA-1 --auto --right-of LVDS-1"
 alias hdvid="xrandr --output HDMI-1 --auto --right-of LVDS-1"
@@ -215,3 +228,5 @@ alias tmxrc="vim ~/.tmux.conf"
 alias vi="vim"
 alias reload="exec zsh"
 alias :q="exit"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim" 
+alias tw-init="npm install -D tailwindcss && npx tailwindcss init"

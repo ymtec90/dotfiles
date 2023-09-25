@@ -1,3 +1,4 @@
+" SETUP ------------------------------------------------------------ {{{
 " Avoid problems disabling vi compatibility
 set nocompatible
 
@@ -62,8 +63,11 @@ set wildmenu
 set wildmode=list:longest
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
+" }}}
+
 " PLUGINS ----------------------------------------------------------- {{{
 
+" VIM-PLUG ---------------------------------------------------------- {{{
 call plug#begin('~/.vim/plugged')
 
 " File/folder navigation plugin
@@ -79,7 +83,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'jiangmiao/auto-pairs'
 
 " FZF enable in Vim
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } } | Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do':  './install --all' } | Plug 'junegunn/fzf.vim'
+Plug 'antoinemadec/coc-fzf'
 
 " Underline the current word whenever it appears in the file
 Plug 'itchyny/vim-cursorword'
@@ -96,22 +101,20 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'bling/vim-bufferline'
 
 " Python plugins
-Plug 'davidhalter/jedi-vim'
 Plug 'vim-scripts/indentpython.vim'
 
 " Git plugins
 Plug 'tpope/vim-fugitive'
 Plug 'mattn/vim-gist'
+Plug 'airblade/vim-gitgutter'
 
 " Web Development plugins
-Plug 'mattn/emmet-vim'
 Plug 'alvan/vim-closetag'
 Plug 'AndrewRadev/tagalong.vim'
 Plug 'ap/vim-css-color'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'ternjs/tern_for_vim'
 Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
 Plug 'prettier/vim-prettier', {
       \ 'do': 'yarn install --frozen-lockfile --production',
@@ -138,34 +141,45 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 " Proper tmux.conf syntax highlight and integration with tmux
 Plug 'tmux-plugins/vim-tmux'
 
-" Git  extension
-Plug 'tpope/vim-fugitive'
-
 " Database interaction
 Plug 'tpope/vim-dadbod'
 
+" Floater terminal
+Plug 'voldikss/vim-floaterm'
+
+" Easy way to browse tags
+Plug 'preservim/tagbar'
+
+" ALE
+Plug 'dense-analysis/ale'
+
+" Which-key for beautiful keybindings management
+Plug 'liuchengxu/vim-which-key'
+
 call plug#end()
+
+" }}}
 
 " Airline and bufferline configurations
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#bufferline#enabled = 0
 let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tagbar#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#right_sep = ''
+let g:airline#extensions#tabline#right_alt_sep = ''
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_theme = 'tokyonight'
 let g:bufferline_echo = 0
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
-
-" Change the emmet-vim leader key
-let g:user_emmet_leader_key = ','
 
 " Preview windown for fzf plugin
 let g:fzf_preview_window = ['right,50%', 'ctrl-/']
@@ -176,12 +190,132 @@ let g:cursorhold_updatetime = 100
 " Rainbow parentheses
 let g:rainbow_active = 1
 
+" Quickfix through ALE
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\}
+let g:ale_fix_on_save = 1
+
 " }}}
 
 " MAPPINGS ---------------------------------------------------------- {{{
 
 " Set space as the leader key
 let mapleader = " "
+let maplocalleader = ","
+
+" WHICH-KEY --------------------------------------------------------- {{{
+
+" By default timeout is 1000 ms
+set timeoutlen=500
+
+" which-key minimal configuration
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+
+nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
+
+call which_key#register('<Space>', "g:which_key_map")
+
+let g:which_key_map =  {}
+
+" Mappings for fzf commands
+let g:which_key_map.f = {
+                  \ 'name': 'FZF'   ,
+                  \ 'f' : ['Files'   , 'Find Files']   ,
+                  \ 'b' : ['Buffers' , 'Find Buffers'] ,
+                  \ 'c' : ['Colors'  , 'Find Colors']  ,
+                  \ 'C' : ['Commands', 'Find Commands'],
+                  \ }
+nnoremap <silent> <leader>fd :CocFzfList diagnostics --current-buf<CR>
+let g:which_key_map.f.d = 'Find Diagnostics'
+nnoremap <silent> <leader>fy :CocFzfList yank<CR>
+let g:which_key_map.f.y = 'Find Yank'
+
+" Mappings for buffers commands
+let g:which_key_map.b = {
+      \ 'name' : 'Buffer' ,
+      \ 'd' : ['bd'        , 'Delete Buffer']   ,
+      \ 'f' : ['bfirst'    , 'First Buffer']    ,
+      \ 'l' : ['blast'     , 'Last Buffer']     ,
+      \ 'n' : ['bnext'     , 'Next Buffer']     ,
+      \ 'p' : ['bprevious' , 'Previous Buffer'] ,
+      \ '?' : ['Buffers'   , 'FZF Buffers']     ,
+      \ }
+
+" Mappings for terminal commands
+let g:which_key_map.t = {
+                  \ 'name': 'Terminal',
+                  \ 'f' : {
+                        \ 'name': 'Floaterm',
+                        \ 'N' : ['FloatermNew', 'New'],
+                        \ 't' : ['FloatermToggle', 'Toggle'],
+                        \ 'n' : ['FloatermNext', 'Next'],
+                        \ 'p' : ['FloatermPrev', 'Previous'],
+                        \ },
+                  \ }
+nnoremap <silent> <leader>tv :vertical terminal<CR> <C-h>
+let g:which_key_map.t.v = 'Vertical'
+nnoremap <silent> <leader>th :bel term ++rows=8<CR> <C-j>
+let g:which_key_map.t.h = 'Horizontal'
+
+" Mappings for NERDTree commands
+nnoremap <silent> <leader>e :NERDTreeToggle<CR>
+let g:which_key_map.e = { 'name' : 'NERDTree Toggle' }
+nnoremap <silent> <leader>o :NERDTreeFocus<CR>
+let g:which_key_map.o = { 'name' : 'NERDTree Focus' }
+
+" Mappings for CoCList commands
+let g:which_key_map.c = { 'name' : 'Coc Actions' }
+" Manage extensions
+nnoremap <silent> <leader>ce  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <leader>cc  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <leader>co  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <leader>cs  :<C-u>CocList -I symbols<cr>
+" Do default action for next item
+nnoremap <silent> <leader>cj  :<C-u>CocNext<CR>
+" Do default action for previous item
+nnoremap <silent> <leader>ck  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <leader>cp  :<C-u>CocListResume<CR>
+" Symbol renaming
+nmap <leader>crn <Plug>(coc-rename)
+" Formatting selected code
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
+" Applying code actions to the selected code block
+" Example: `<leader>aap` for current paragraph
+xmap <leader>ca  <Plug>(coc-codeaction-selected)
+nmap <leader>ca  <Plug>(coc-codeaction-selected)
+" Remap keys for applying code actions at the cursor position
+nmap <leader>cac  <Plug>(coc-codeaction-cursor)
+" Remap keys for apply code actions affect whole buffer
+nmap <leader>cas  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>cqf  <Plug>(coc-fix-current)
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>cre <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>cr  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>cr  <Plug>(coc-codeaction-refactor-selected)
+" Run the Code Lens action on the current line
+nmap <leader>ccl  <Plug>(coc-codelens-action)
+
+" Mappings for Spellcheck commands
+let g:which_key_map.s = { 'name' : 'Spellcheck' }
+nnoremap <silent> <leader>sy :set spell<CR>
+let g:which_key_map.s.y = 'Turn on Spellcheck'
+nnoremap <silent> <leader>sn :set nospell<CR>
+let g:which_key_map.s.n = 'Turn off Spellcheck'
+
+" GitGutter commands
+let g:which_key_map.h = { 'name' : 'GitGutter' }
+
+" }}}
 
 " Press jj to exit insert mode quickly ans save the file
 inoremap jj <ESC>:w<CR>
@@ -214,35 +348,17 @@ noremap <c-down> <c-w>-
 noremap <c-left> <c-w>>
 noremap <c-right> <c-w><
 
-" NERDTree specific mappings.
-" Map the F3 key to toggle NERDTree open and close.
-nnoremap <F3> :NERDTreeToggle<cr>
-
 " Disabling arrow keys in normal and insert mode
 nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Right> <Nop>
 nnoremap <Left> <Nop>
 
-" Mapping for buffer management
-nnoremap <silent> [b :bnext<CR>
-nnoremap <silent> ]b :bprev<CR>
-nnoremap <leader>bd :bd<CR>
+" Map the <F5> to toggle tagbar
+nnoremap <F5> :TagbarToggle<CR>
 
 " Map the <F9> to toggle the undo-tree
 nnoremap <F9> :UndotreeToggle<CR>
-
-" Mappings for fzf commands
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fb :Buffers<CR>
-nnoremap <leader>fc :Colors<CR>
-
-" Spellcheck mappings
-nnoremap <leader>sy :set spell<CR>
-nnoremap <leader>sn :set nospell<CR>
-
-" Terminal Mappings
-nnoremap <silent> <leader>t :terminal<CR>
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -274,33 +390,6 @@ nmap <silent> gr <Plug>(coc-references)
 " Use K to show documentation in preview window
 nnoremap <silent> K :call ShowDocumentation()<CR>
 
-" Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-" Applying code actions to the selected code block
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying code actions at the cursor position
-nmap <leader>ac  <Plug>(coc-codeaction-cursor)
-" Remap keys for apply code actions affect whole buffer
-nmap <leader>as  <Plug>(coc-codeaction-source)
-" Apply the most preferred quickfix action to fix diagnostic on the current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Remap keys for applying refactor code actions
-nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
-xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-
-" Run the Code Lens action on the current line
-nmap <leader>cl  <Plug>(coc-codelens-action)
-
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server
 xmap if <Plug>(coc-funcobj-i)
@@ -316,26 +405,6 @@ omap ac <Plug>(coc-classobj-a)
 " Requires 'textDocument/selectionRange' support of language server
 nmap <silent> <C-s> <Plug>(coc-range-select)
 xmap <silent> <C-s> <Plug>(coc-range-select)
-
-" Mappings for CoCList
-" Show all diagnostics
-nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
-" Manage extensions
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
-" Show commands
-nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
-" Find symbol of current document
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
-" Search workspace symbols
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
-" Do default action for next item
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
-" Do default action for previous item
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
-" Resume latest coc list
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-" Setup for open yank list
-nnoremap <silent> <leader>y  :<C-u>CocList -A --normal yank<cr>
 
 " }}}
 
@@ -359,8 +428,8 @@ endif
 " Display cursorline and cursorcolumn ONLY in active window.
 augroup cursor_off
     autocmd!
-    autocmd WinLeave * set nocursorline nocursorcolumn
-    autocmd WinEnter * set cursorline cursorcolumn
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
 augroup END
 
 augroup numbertoggle

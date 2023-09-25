@@ -102,6 +102,9 @@ Plug 'bling/vim-bufferline'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim'
+Plug 'jmcantrell/vim-virtualenv'
+Plug 'sillybun/vim-repl'
+Plug 'puremourning/vimspector'
 
 " Git plugins
 Plug 'tpope/vim-fugitive'
@@ -195,6 +198,33 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \}
 let g:ale_fix_on_save = 1
+
+" REPL configuration
+let g:sendtorepl_invoke_key = "<leader>ps"
+let g:repl_position = 3
+let g:repl_stayatrepl_when_open = 0
+let g:repl_ipython_version = '7.7'
+let g:repl_program = {
+			\	'python': 'ipython',
+			\	'default': 'zsh',
+      \ 'r': 'R',
+      \ 'lua': 'lua',
+      \ 'vim': 'vim -e',
+			\	}
+let g:repl_predefine_python = {
+      \ 'numpy': 'import numpy as np',
+      \ 'matplotlib': 'from matplotlib import pyplot as plt'
+      \ }
+let g:repl_exit_commands = {
+			\	'ipython': 'quit()',
+      \ 'python': 'quit()',
+			\	'bash': 'exit',
+			\	'zsh': 'exit',
+			\	'default': 'exit',
+			\	}
+let g:repl_cursor_down = 1
+let g:repl_python_automerge = 1
+let g:repl_auto_sends = ['class ', 'def ', 'for ', 'if ', 'while ', 'with ', 'async def', '@', 'try']
 
 " }}}
 
@@ -312,8 +342,51 @@ let g:which_key_map.s.y = 'Turn on Spellcheck'
 nnoremap <silent> <leader>sn :set nospell<CR>
 let g:which_key_map.s.n = 'Turn off Spellcheck'
 
-" GitGutter commands
+" Mappings for GitGutter commands
 let g:which_key_map.h = { 'name' : 'GitGutter' }
+
+" Mappings for VimSpector commands
+let g:which_key_map.d = { 'name' : 'Debug' }
+" for normal mode - the word under the cursor
+nmap <leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <leader>di <Plug>VimspectorBalloonEval
+" When debugging, continue. Otherwise start debugging.
+nnoremap <leader>dc <Plug>VimspectorContinue
+"	Stop debugging.
+nnoremap <leader>ds <Plug>VimspectorStop
+"	Restart debugging with the same configuration.
+nnoremap <leader>dr <Plug>VimspectorRestart
+" Pause debbuggae.
+nnoremap <leader>dp <Plug>VimspectorPause
+"	Toggle line breakpoint on the current line.
+nnoremap <leader>dtp <Plug>VimspectorToggleBreakpoint
+"	Toggle conditional line breakpoint or logpoint on the current line.
+nnoremap <leader>dtb 	<Plug>VimspectorToggleConditionalBreakpoint
+" Add a function breakpoint for the expression under cursor
+nnoremap <leader>dta <Plug>VimspectorAddFunctionBreakpoint
+"	Run to Cursor
+nnoremap <leader>dtr 	<Plug>VimspectorRunToCursor
+" Step Over
+nnoremap <leader>dso <Plug>VimspectorStepOver
+" Step Into
+nnoremap <leader>dsi <Plug>VimspectorStepInto
+" Step out of current function scope
+nnoremap <leader>dsO <Plug>VimspectorStepOut
+
+" Mappings for Python Tools Commands
+let g:which_key_map.p = {
+                  \ 'name': 'Python',
+                  \ 'r' : ['REPLToggle', 'Toggle Python REPL'],
+                  \ 'v' : {
+                        \ 'name': 'Virtual Environment',
+                        \ 'l' : ['VirtualEnvList', 'Lists Virtual Envs'],
+                        \ 'd' : ['VitualEnvDeactivate', 'Deactivate Virtual Env'],
+                        \ },
+                  \ }
+let g:which_key_map.p.s = 'Send to REPL'
+nnoremap <silent> <leader>pvh :help virtualenv<CR>
+let g:which_key_map.p.v.h = 'VirtualEnv help'
 
 " }}}
 

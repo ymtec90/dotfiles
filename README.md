@@ -61,3 +61,24 @@ Like I told above, the use is very easy and the script comes ready in the .zshrc
 file. No need to edit anything. If you want to integrate with the .zshrc you
 already had setup in your system, look for the functions in the bottom of my
 .zshrc file and then copy for your own.
+
+#### Coc.nvim extensions used for me:
+
+1. coc-angular
+2. coc-css
+3. coc-emmet
+4. coc-eslint
+5. coc-fzf-preview
+6. coc-html
+7. coc-html-css-support
+8. coc-htmdjango
+9. coc-json
+10. coc-lua
+11. coc-prettier
+12. coc-pyright
+13. coc-snippets
+14. coc-stylelint
+15. coc-tailwindcss
+16. coc-tsserver
+17. coc-vim-lsp
+18. coc-yank

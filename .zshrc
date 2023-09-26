@@ -206,7 +206,7 @@ video_conv() {
 
 # function to use fzf to selected a specific nvim distro
 function nvims() {
-  items=("defaut" "AstroNvim")
+  items=("defaut" "AstroNvim" "LazyVim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -228,5 +228,8 @@ alias tmxrc="vim ~/.tmux.conf"
 alias vi="vim"
 alias reload="exec zsh"
 alias :q="exit"
-alias nvim-astro="NVIM_APPNAME=AstroNvim nvim" 
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
 alias tw-init="npm install -D tailwindcss && npx tailwindcss init"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

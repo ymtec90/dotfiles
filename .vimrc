@@ -286,7 +286,7 @@ let g:which_key_map.t = {
                         \ 'p' : ['FloatermPrev', 'Previous'],
                         \ },
                   \ }
-nnoremap <silent> <leader>:FloatermNew lazygit<CR>
+nnoremap <silent> <leader>tfl :FloatermNew lazygit<CR>
 let g:which_key_map.t.f.l = 'LazyGit'
 nnoremap <silent> <leader>tv :vertical terminal<CR> <C-h>
 let g:which_key_map.t.v = 'Vertical'

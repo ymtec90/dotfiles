@@ -102,7 +102,6 @@ Plug 'bling/vim-bufferline'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim'
-Plug 'jmcantrell/vim-virtualenv'
 Plug 'sillybun/vim-repl'
 Plug 'puremourning/vimspector'
 
@@ -140,6 +139,7 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'kyoz/purify', { 'rtp': 'vim' }
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'preservim/vim-colors-pencil'
 
 " Proper tmux.conf syntax highlight and integration with tmux
 Plug 'tmux-plugins/vim-tmux'
@@ -177,9 +177,9 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline_theme = 'tokyonight'
 let g:bufferline_echo = 0
 let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
+let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+let g:airline_right_alt_sep = ''
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
@@ -203,7 +203,7 @@ let g:ale_fix_on_save = 1
 let g:sendtorepl_invoke_key = "<leader>ps"
 let g:repl_position = 3
 let g:repl_stayatrepl_when_open = 0
-let g:repl_ipython_version = '7.7'
+let g:repl_ipython_version = '8.15'
 let g:repl_program = {
 			\	'python': 'ipython',
 			\	'default': 'zsh',
@@ -286,6 +286,8 @@ let g:which_key_map.t = {
                         \ 'p' : ['FloatermPrev', 'Previous'],
                         \ },
                   \ }
+nnoremap <silent> <leader>:FloatermNew lazygit<CR>
+let g:which_key_map.t.f.l = 'LazyGit'
 nnoremap <silent> <leader>tv :vertical terminal<CR> <C-h>
 let g:which_key_map.t.v = 'Vertical'
 nnoremap <silent> <leader>th :bel term ++rows=8<CR> <C-j>
@@ -378,15 +380,8 @@ nnoremap <leader>dsO <Plug>VimspectorStepOut
 let g:which_key_map.p = {
                   \ 'name': 'Python',
                   \ 'r' : ['REPLToggle', 'Toggle Python REPL'],
-                  \ 'v' : {
-                        \ 'name': 'Virtual Environment',
-                        \ 'l' : ['VirtualEnvList', 'Lists Virtual Envs'],
-                        \ 'd' : ['VitualEnvDeactivate', 'Deactivate Virtual Env'],
-                        \ },
                   \ }
 let g:which_key_map.p.s = 'Send to REPL'
-nnoremap <silent> <leader>pvh :help virtualenv<CR>
-let g:which_key_map.p.v.h = 'VirtualEnv help'
 
 " }}}
 
@@ -569,5 +564,15 @@ augroup python_indent
   autocmd!
   autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 augroup END
+
+" Indent guide
+function! SetCustomListChars()
+  let l:sw = &sw
+  let l:listchars = 'trail:·,tab:│\ ,multispace:┆' . repeat('\ ', l:sw - 1)
+  execute 'setlocal listchars=' . l:listchars
+endfunction
+
+autocmd BufWinEnter * call SetCustomListChars()
+set list
 
 " }}}

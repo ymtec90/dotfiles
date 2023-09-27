@@ -28,10 +28,9 @@ applications in use.
 
 1. Open your terminal.
 2. Type `$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
-3. Type `$ mkdir ~/.config/tmux`
-4. Paste the `tmux.conf` inside the created folder
-   `$ mv .../configs/tmux.conf ~/.config/tmux/`
-5. Start the tmux and then press `Ctrl + b + I` to force the system to install
+3. Paste the `.tmux.conf` inside your `$HOME` folder
+   `$ mv .../configs/.tmux.conf ~/`
+4. Start the tmux and then press `Ctrl + b + I` to force the system to install
    the required plugins.
 
 #### How to use the venv functions while in a terminal using Zsh:
@@ -62,23 +61,20 @@ file. No need to edit anything. If you want to integrate with the .zshrc you
 already had setup in your system, look for the functions in the bottom of my
 .zshrc file and then copy for your own.
 
-#### Coc.nvim extensions used for me:
+#### Vim configuration
 
-1. coc-angular
-2. coc-css
-3. coc-emmet
-4. coc-eslint
-5. coc-fzf-preview
-6. coc-html
-7. coc-html-css-support
-8. coc-htmdjango
-9. coc-json
-10. coc-lua
-11. coc-prettier
-12. coc-pyright
-13. coc-snippets
-14. coc-stylelint
-15. coc-tailwindcss
-16. coc-tsserver
-17. coc-vim-lsp
-18. coc-yank
+I use Vim as an IDE because he is more than this. I can use Vim for every part
+of my development and learning.
+
+Six months ago I was struggling against procrastination, trying to finish my
+graduation course and fighting the sentiment that I wasn't able to code properly,
+or that I'm a fraud. I took a litte guide produced by
+[FreeCodeAcademy](https://www.freecodecamp.org/news/vimrc-configuration-guide-customize-your-vim-editor/)
+about how to costumize Vim and started to tweek (or rice if you prefer) Vim.
+
+It took time, but eventually I learned about Vimscript and how to set the .vimrc
+the way I needed for my goals. I the meantime I regain trust to improve myself
+as a developer and felt the desire to learn coming back.
+
+So I am putting this configuration in a plubic repository, a place where I
+believe someone can find it and maybe use for learning like I do.

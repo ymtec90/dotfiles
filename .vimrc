@@ -144,8 +144,9 @@ Plug 'preservim/vim-colors-pencil'
 " Proper tmux.conf syntax highlight and integration with tmux
 Plug 'tmux-plugins/vim-tmux'
 
-" Database interaction
+" Database interaction and ui
 Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
 
 " Floater terminal
 Plug 'voldikss/vim-floaterm'
@@ -192,6 +193,29 @@ let g:cursorhold_updatetime = 100
 
 " Rainbow parentheses
 let g:rainbow_active = 1
+
+" Coc Extensions
+let g:coc_global_extensions = [
+                  \ 'coc-json',
+                  \ 'coc-yank',
+                  \ 'coc-tailwindcss',
+                  \ 'coc-snippets',
+                  \ 'coc-prettier',
+                  \ 'coc-html-css-support',
+                  \ 'coc-html',
+                  \ 'coc-fzf-preview',
+                  \ 'coc-eslint',
+                  \ 'coc-emmet',
+                  \ 'coc-vimlsp',
+                  \ 'coc-tsserver',
+                  \ 'coc-stylelint',
+                  \ 'coc-lua',
+                  \ 'coc-htmlhint',
+                  \ 'coc-htmldjango',
+                  \ 'coc-css',
+                  \ 'coc-angular',
+                  \ '@yaegassy/coc-pylsp'
+                  \ ]
 
 " Quickfix through ALE
 let g:ale_fixers = {
@@ -383,6 +407,15 @@ let g:which_key_map.p = {
                   \ }
 let g:which_key_map.p.s = 'Send to REPL'
 
+" Mappings for Query (through dadbod-ui) Commands
+let g:which_key_map.q = {
+                  \ 'name': 'Query',
+                  \ 'a' : ['DBUIAddConnection', 'Add a connection'],
+                  \ 'd' : ['DBUI', 'Open drawer'],
+                  \ 't' : ['DBUIToggle', 'Toggle DBUI'],
+                  \ 'b' : ['DBUIFindBuffer', 'Find Buffer'],
+                  \ }
+
 " }}}
 
 " Press jj to exit insert mode quickly ans save the file
@@ -400,6 +433,10 @@ nnoremap N Nzz
 
 " Yank from the cursor to the end of line
 nnoremap Y y$
+
+" Use J and K to reposition a piece of text
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " You can split the window by typing :split or :vsplit
 " Navigate the split view easier by pressing CTRL+j, CTRL+k, CTRL+h or

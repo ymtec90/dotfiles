@@ -10,11 +10,8 @@ filetype indent on
 " Turn on syntax highlighting
 syntax on
 
-" Set the colorscheme to tokyonight
+" Set the true colors
 set termguicolors
-let g:tokyonight_style = 'night' " available: night, storm
-let g:tokyonight_enable_italic = 1
-colorscheme tokyonight
 
 " Add number and relative number for navigation
 set number relativenumber
@@ -55,7 +52,7 @@ set smartcase
 set showcmd
 
 " Show the current mode in the last line
-set showmode
+set laststatus=2
 
 " Enable autocompletion menu after pressing TAB and make it similar to
 " Bash completion. Also ignore certain file types.
@@ -95,10 +92,9 @@ Plug 'luochen1990/rainbow'
 " Wakatime support for Vim
 Plug 'wakatime/vim-wakatime'
 
-" Airline plugin to have a good status line
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'bling/vim-bufferline'
+" UI plugins
+Plug 'bluz71/vim-mistfly-statusline'
+Plug 'ap/vim-buftabline'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim'
@@ -127,11 +123,13 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'honza/vim-snippets'
 
-" Colorschemes and Airline themes
+" Colorschemes
+Plug 'bluz71/vim-moonfly-colors'
 Plug 'elvessousa/sobrio'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'morhetz/gruvbox'
+Plug 'sainnhe/gruvbox-material'
 Plug 'tomasr/molokai'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'jnurmine/Zenburn'
@@ -154,8 +152,8 @@ Plug 'voldikss/vim-floaterm'
 " Easy way to browse tags
 Plug 'preservim/tagbar'
 
-" ALE
-Plug 'dense-analysis/ale'
+" Plugin for R IDE
+Plug 'jalvesaq/Nvim-R'
 
 " Which-key for beautiful keybindings management
 Plug 'liuchengxu/vim-which-key'
@@ -164,23 +162,23 @@ call plug#end()
 
 " }}}
 
-" Airline and bufferline configurations
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#bufferline#enabled = 0
-let g:airline#extensions#coc#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tagbar#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_theme = 'tokyonight'
-let g:bufferline_echo = 0
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+" Colorscheme configuration
+set background=dark
+let g:gruvbox_material_background = 'medium' " available: hard, medium, and soft
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_enable_bold = 1
+colorscheme gruvbox-material
+
+" Mistify statusline configurations
+let g:mistflyProgressSymbol= ''
+let g:mistflyGitBranchSymbol = ''
+let g:mistflyErrorSymbol = ''
+let g:mistflyWarningSymbol = ''
+let g:mistflyInformationSymbol = ''
+let g:mistflyWithDiagnosticStatus = v:true
+let g:mistflyWithSearchCount = v:true
+let g:mistflyWithSpellStatus = v:true
+let g:mistflyWithIndentStatus = v:true
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
@@ -198,7 +196,6 @@ let g:rainbow_active = 1
 let g:coc_global_extensions = [
                   \ 'coc-json',
                   \ 'coc-yank',
-                  \ 'coc-tailwindcss',
                   \ 'coc-snippets',
                   \ 'coc-prettier',
                   \ 'coc-html-css-support',
@@ -209,19 +206,12 @@ let g:coc_global_extensions = [
                   \ 'coc-vimlsp',
                   \ 'coc-tsserver',
                   \ 'coc-stylelint',
-                  \ 'coc-lua',
                   \ 'coc-htmlhint',
                   \ 'coc-htmldjango',
                   \ 'coc-css',
-                  \ 'coc-angular',
-                  \ '@yaegassy/coc-pylsp'
+                  \ 'coc-r-lsp',
+                  \ '@yaegassy/coc-pylsp',
                   \ ]
-
-" Quickfix through ALE
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\}
-let g:ale_fix_on_save = 1
 
 " REPL configuration
 let g:sendtorepl_invoke_key = "<leader>ps"
@@ -237,7 +227,7 @@ let g:repl_program = {
 			\	}
 let g:repl_predefine_python = {
       \ 'numpy': 'import numpy as np',
-      \ 'matplotlib': 'from matplotlib import pyplot as plt'
+      \ 'matplotlib': 'from matplotlib import pyplot as plt',
       \ }
 let g:repl_exit_commands = {
 			\	'ipython': 'quit()',
@@ -267,6 +257,11 @@ set timeoutlen=500
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+vnoremap <silent> <localleader> :<c-u>WhichKeyVisual  ','<CR>
+
+call which_key#register(',', "g:which_lkey_map")
+
+let g:which_lkey_map =  {}
 
 nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
 vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
@@ -312,7 +307,7 @@ let g:which_key_map.t = {
                   \ }
 nnoremap <silent> <leader>tfl :FloatermNew lazygit<CR>
 let g:which_key_map.t.f.l = 'LazyGit'
-nnoremap <silent> <leader>tv :vertical terminal<CR> <C-h>
+nnoremap <silent> <leader>tv :FloatermNew --width=0.5 --wintype=vsplit --position=right<CR> <C-l>
 let g:which_key_map.t.v = 'Vertical'
 nnoremap <silent> <leader>th :bel term ++rows=8<CR> <C-j>
 let g:which_key_map.t.h = 'Horizontal'
@@ -368,6 +363,13 @@ let g:which_key_map.s.y = 'Turn on Spellcheck'
 nnoremap <silent> <leader>sn :set nospell<CR>
 let g:which_key_map.s.n = 'Turn off Spellcheck'
 
+" Mappings for bg toggle
+let g:which_key_map.u = { 'name' : 'UI' }
+nnoremap <silent> <leader>ud :set background=dark<CR>
+let g:which_key_map.u.d = 'Background Dark'
+nnoremap <silent> <leader>ul :set background=light<CR>
+let g:which_key_map.u.l = 'Background Light'
+
 " Mappings for GitGutter commands
 let g:which_key_map.h = { 'name' : 'GitGutter' }
 
@@ -415,6 +417,110 @@ let g:which_key_map.q = {
                   \ 't' : ['DBUIToggle', 'Toggle DBUI'],
                   \ 'b' : ['DBUIFindBuffer', 'Find Buffer'],
                   \ }
+
+" Mappings for the NvimR
+let g:which_lkey_map.r = {
+                  \ 'name': 'Main Commands',
+                  \ }
+let g:which_lkey_map.r.f = 'Start R (default)'
+let g:which_lkey_map.r.c = 'Start R (custom)'
+let g:which_lkey_map.r.q = 'Close (no save)'
+let g:which_lkey_map.r.l = 'List space'
+let g:which_lkey_map.r.r = 'Clear console'
+let g:which_lkey_map.r.m = 'Remove objects + clear console'
+let g:which_lkey_map.r.p = 'Print (cur)'
+let g:which_lkey_map.r.n = 'Names (cur)'
+let g:which_lkey_map.r.t = 'Structure (cur)'
+let g:which_lkey_map.r.v = 'View df (cur) new tab'
+let g:which_lkey_map.r.h = 'Help (cur)'
+let g:which_lkey_map.r.s = 'Summary (cur)'
+let g:which_lkey_map.r.g = 'Plot (cur)'
+let g:which_lkey_map.r.b = 'Plot and summary (cur)'
+let g:which_lkey_map.r.d = 'Set work dir (cur path)'
+let g:which_lkey_map.r.o = 'Open object browser'
+let g:which_lkey_map.a = {
+                  \ 'name': 'Send File',
+                  \ }
+let g:which_lkey_map.a.a = 'File'
+let g:which_lkey_map.a.e = 'File(echo)'
+let g:which_lkey_map.a.o = 'File (open .Rout)'
+let g:which_lkey_map.b = {
+                  \ 'name': 'Send Block and Debug',
+                  \ }
+let g:which_lkey_map.b.b = 'Block (cur)'
+let g:which_lkey_map.b.e = 'Block (cur, echo)'
+let g:which_lkey_map.b.d = 'Block (cur, down)'
+let g:which_lkey_map.b.a = 'Block (cur, echo and down)'
+let g:which_lkey_map.b.g = 'Debug (function)'
+let g:which_lkey_map.c = {
+                  \ 'name': 'Send Chunk',
+                  \ }
+let g:which_lkey_map.c.c = 'Chunk (cur)'
+let g:which_lkey_map.c.e = 'Chunk (cur, echo)'
+let g:which_lkey_map.c.d = 'Chunk (cur, down)'
+let g:which_lkey_map.c.a = 'Chunk (cur, echo, down)'
+let g:which_lkey_map.c.h = 'Chunk (from 1st to here)'
+let g:which_lkey_map.f = {
+                  \ 'name': 'Send function',
+                  \ }
+let g:which_lkey_map.f.f = 'Function (cur)'
+let g:which_lkey_map.f.e = 'Function (cur, echo)'
+let g:which_lkey_map.f.d = 'Function (cur, down)'
+let g:which_lkey_map.f.a = 'Function (cur, echo, down)'
+let g:which_lkey_map.s = {
+                  \ 'name': 'Send selection and Sweave',
+                  \ }
+let g:which_lkey_map.s.s = 'Selection'
+let g:which_lkey_map.s.e = 'Selection (echo)'
+let g:which_lkey_map.s.d = 'Selection (down)'
+let g:which_lkey_map.s.a = 'Selection (echo, down)'
+let g:which_lkey_map.s.o = 'Selection (eval + send new tab)'
+let g:which_lkey_map.s.u = 'All lines above current one'
+let g:which_lkey_map.s.w = 'Sweave (cur) file'
+let g:which_lkey_map.s.p = 'Sweave and PDF (current file)'
+let g:which_lkey_map.s.b = 'Sweave, BibTeX and PDF (cur file)'
+let g:which_lkey_map.p = {
+                  \ 'name': 'Send paragraph',
+                  \ }
+let g:which_lkey_map.p.p = 'Paragraph'
+let g:which_lkey_map.p.e = 'Paragraph (echo)'
+let g:which_lkey_map.p.d = 'Paragraph (down)'
+let g:which_lkey_map.p.a = 'Paragraph (echo, down)'
+let g:which_lkey_map.v = {
+                  \ 'name': 'View',
+                  \ }
+let g:which_lkey_map.v.s = 'df (cur) in horizontal split'
+let g:which_lkey_map.v.v = 'df (cur) in vertical split'
+let g:which_lkey_map.v.s = 'head of df (cur) in horizontal split'
+let g:which_lkey_map.k = {
+                  \ 'name': 'Knit',
+                  \ }
+let g:which_lkey_map.k.n = 'Knit (cur file)'
+let g:which_lkey_map.k.b = 'Knit, BibTeX and PDF (cur file)'
+let g:which_lkey_map.k.p = 'Knit and PDF (cur file)'
+let g:which_lkey_map.k.l = 'Knit and Beamer PDF (cur file)'
+let g:which_lkey_map.k.h = 'Knit and HTML (cur file, verbose)'
+let g:which_lkey_map.k.o = 'Knit and ODT (cur file)'
+let g:which_lkey_map.k.w = 'Knit and Word Document (cur file)'
+let g:which_lkey_map.k.r = 'Markdown render (cur file)'
+let g:which_lkey_map.k.s = 'Spin (cur file) (only .R)'
+let g:which_lkey_map.k.a = 'Markdown render (cur file) YAML'
+let g:which_lkey_map.q = {
+                  \ 'name': 'Quarto',
+                  \ }
+let g:which_lkey_map.q.r = 'Quarto render (cur file)'
+let g:which_lkey_map.q.p = 'Quarto preview (cur file)'
+let g:which_lkey_map.q.s = 'Quarto stop preview (all files)'
+let g:which_lkey_map.o = {
+                  \ 'name': 'Open',
+                  \ }
+let g:which_lkey_map.o.a = 'Open attachment of reference (Rmd)'
+let g:which_lkey_map.o.p = 'Open PDF (cur file)'
+let g:which_lkey_map.g = {
+                  \ 'name': 'Search and GoTo',
+                  \ }
+let g:which_lkey_map.g.p = 'Search forward (SyncTeX)'
+let g:which_lkey_map.g.t = 'Go to LaTeX (SyncTeX)'
 
 " }}}
 
@@ -611,5 +717,20 @@ endfunction
 
 autocmd BufWinEnter * call SetCustomListChars()
 set list
+
+function! Preserve(command)
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  execute a:command
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+
+autocmd BufWritePre *.py,*.js,*.r,*.Rmd,*.css,*.html :call Preserve("%s/\\s\\+$//e")
+autocmd BufWritePre *.py,*.js,*.r,*.Rmd,*.css,*.html :call Preserve("normal gg=G")
 
 " }}}

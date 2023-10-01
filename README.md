@@ -78,3 +78,23 @@ as a developer and felt the desire to learn coming back.
 
 So I am putting this configuration in a plubic repository, a place where I
 believe someone can find it and maybe use for learning like I do.
+
+##### Dependencies
+
+To ensure the correct functioning of the dotfiles available here, it will be necessary to install the following dependencies:
+
+1. `Vim`
+2. `tmux`
+3. `i3wm`
+4. `ripgrep` (rp)
+5. `node`
+6. `npm`
+7. `python3-venv`
+8. `yarn`
+9. `bat`
+10. [delta](https://github.com/dandavison/delta)
+11. [The Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+12. `djlint`
+13. `prettier`
+14. `R`
+15. `ipython`

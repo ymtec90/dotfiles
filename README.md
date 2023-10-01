@@ -98,3 +98,5 @@ To ensure the correct functioning of the dotfiles available here, it will be nec
 13. `prettier`
 14. `R`
 15. `ipython`
+16. `fzf`
+17. `zsh`

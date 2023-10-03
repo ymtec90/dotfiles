@@ -1,4 +1,4 @@
-" SETUP ------------------------------------------------------------ {{{
+" SETUP ------------------------------------------------------------- {{{
 " Avoid problems disabling vi compatibility
 set nocompatible
 
@@ -38,6 +38,9 @@ set signcolumn=yes
 " Don't let cursor scroll below or above 10 line when scrolling
 set scrolloff=10
 
+" Set statusline
+set laststatus=2
+
 " Don't wrap lines
 set nowrap
 
@@ -50,9 +53,6 @@ set smartcase
 
 " Show partial command you type in the last line
 set showcmd
-
-" Show the current mode in the last line
-set laststatus=2
 
 " Enable autocompletion menu after pressing TAB and make it similar to
 " Bash completion. Also ignore certain file types.
@@ -76,6 +76,10 @@ Plug 'mbbill/undotree'
 " Better syntax highlight
 Plug 'sheerun/vim-polyglot'
 
+" UI plugins
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 " Autopairs for brackets and quotes
 Plug 'jiangmiao/auto-pairs'
 
@@ -91,10 +95,6 @@ Plug 'luochen1990/rainbow'
 
 " Wakatime support for Vim
 Plug 'wakatime/vim-wakatime'
-
-" UI plugins
-Plug 'bluz71/vim-mistfly-statusline'
-Plug 'ap/vim-buftabline'
 
 " Python plugins
 Plug 'vim-scripts/indentpython.vim'
@@ -115,8 +115,8 @@ Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'turbio/bracey.vim', { 'do': 'npm install --prefix server' }
 Plug 'prettier/vim-prettier', {
-      \ 'do': 'yarn install --frozen-lockfile --production',
-      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+                  \ 'do': 'yarn install --frozen-lockfile --production',
+                  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
 
 " Linters and formatters through the Conquer of Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -162,23 +162,18 @@ call plug#end()
 
 " }}}
 
+" UI Plugins configuration
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline_theme='gruvbox_material'
+
 " Colorscheme configuration
 set background=dark
 let g:gruvbox_material_background = 'medium' " available: hard, medium, and soft
 let g:gruvbox_material_better_performance = 1
 let g:gruvbox_material_enable_bold = 1
 colorscheme gruvbox-material
-
-" Mistify statusline configurations
-let g:mistflyProgressSymbol= ''
-let g:mistflyGitBranchSymbol = ''
-let g:mistflyErrorSymbol = ''
-let g:mistflyWarningSymbol = ''
-let g:mistflyInformationSymbol = ''
-let g:mistflyWithDiagnosticStatus = v:true
-let g:mistflyWithSearchCount = v:true
-let g:mistflyWithSpellStatus = v:true
-let g:mistflyWithIndentStatus = v:true
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
@@ -219,23 +214,23 @@ let g:repl_position = 3
 let g:repl_stayatrepl_when_open = 0
 let g:repl_ipython_version = '8.15'
 let g:repl_program = {
-			\	'python': 'ipython',
-			\	'default': 'zsh',
-      \ 'r': 'R',
-      \ 'lua': 'lua',
-      \ 'vim': 'vim -e',
-			\	}
+                  \	'python': 'ipython',
+                  \	'default': 'zsh',
+                  \ 'r': 'R',
+                  \ 'lua': 'lua',
+                  \ 'vim': 'vim -e',
+                  \	}
 let g:repl_predefine_python = {
-      \ 'numpy': 'import numpy as np',
-      \ 'matplotlib': 'from matplotlib import pyplot as plt',
-      \ }
+                  \ 'numpy': 'import numpy as np',
+                  \ 'matplotlib': 'from matplotlib import pyplot as plt',
+                  \ }
 let g:repl_exit_commands = {
-			\	'ipython': 'quit()',
-      \ 'python': 'quit()',
-			\	'bash': 'exit',
-			\	'zsh': 'exit',
-			\	'default': 'exit',
-			\	}
+                  \	'ipython': 'quit()',
+                  \ 'python': 'quit()',
+                  \	'bash': 'exit',
+                  \	'zsh': 'exit',
+                  \	'default': 'exit',
+                  \	}
 let g:repl_cursor_down = 1
 let g:repl_python_automerge = 1
 let g:repl_auto_sends = ['class ', 'def ', 'for ', 'if ', 'while ', 'with ', 'async def', '@', 'try']
@@ -285,25 +280,25 @@ let g:which_key_map.f.y = 'Find Yank'
 
 " Mappings for buffers commands
 let g:which_key_map.b = {
-      \ 'name' : 'Buffer' ,
-      \ 'd' : ['bd'        , 'Delete Buffer']   ,
-      \ 'f' : ['bfirst'    , 'First Buffer']    ,
-      \ 'l' : ['blast'     , 'Last Buffer']     ,
-      \ 'n' : ['bnext'     , 'Next Buffer']     ,
-      \ 'p' : ['bprevious' , 'Previous Buffer'] ,
-      \ '?' : ['Buffers'   , 'FZF Buffers']     ,
-      \ }
+                  \ 'name' : 'Buffer' ,
+                  \ 'd' : ['bd'        , 'Delete Buffer']   ,
+                  \ 'f' : ['bfirst'    , 'First Buffer']    ,
+                  \ 'l' : ['blast'     , 'Last Buffer']     ,
+                  \ 'n' : ['bnext'     , 'Next Buffer']     ,
+                  \ 'p' : ['bprevious' , 'Previous Buffer'] ,
+                  \ '?' : ['Buffers'   , 'FZF Buffers']     ,
+                  \ }
 
 " Mappings for terminal commands
 let g:which_key_map.t = {
                   \ 'name': 'Terminal',
                   \ 'f' : {
-                        \ 'name': 'Floaterm',
-                        \ 'N' : ['FloatermNew', 'New'],
-                        \ 't' : ['FloatermToggle', 'Toggle'],
-                        \ 'n' : ['FloatermNext', 'Next'],
-                        \ 'p' : ['FloatermPrev', 'Previous'],
-                        \ },
+                  \ 'name': 'Floaterm',
+                  \ 'N' : ['FloatermNew', 'New'],
+                  \ 't' : ['FloatermToggle', 'Toggle'],
+                  \ 'n' : ['FloatermNext', 'Next'],
+                  \ 'p' : ['FloatermPrev', 'Previous'],
+                  \ },
                   \ }
 nnoremap <silent> <leader>tfl :FloatermNew lazygit<CR>
 let g:which_key_map.t.f.l = 'LazyGit'
@@ -577,15 +572,15 @@ nnoremap <F9> :UndotreeToggle<CR>
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+                  \ coc#pum#visible() ? coc#pum#next(1) :
+                  \ CheckBackspace() ? "\<Tab>" :
+                  \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+                  \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
@@ -623,71 +618,71 @@ xmap <silent> <C-s> <Plug>(coc-range-select)
 
 " Enable folding in vim files
 augroup filetype_vim
-  autocmd!
-  autocmd FileType vim setlocal foldmethod=marker
+      autocmd!
+      autocmd FileType vim setlocal foldmethod=marker
 augroup END
 
 " If Vim version is equal to or greater than 7.3 enable undofile.
 " This allows you to undo changes to a file even after saving it.
 if version >= 703
-    set undodir=~/.vim/backup
-    set undofile
-    set undoreload=10000
+      set undodir=~/.vim/backup
+      set undofile
+      set undoreload=10000
 endif
 
 " You can split a window into sections by typing `:split` or `:vsplit`.
 " Display cursorline and cursorcolumn ONLY in active window.
 augroup cursor_off
-    autocmd!
-    autocmd WinLeave * set nocursorline
-    autocmd WinEnter * set cursorline
+      autocmd!
+      autocmd WinLeave * set nocursorline
+      autocmd WinEnter * set cursorline
 augroup END
 
 augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-    autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+      autocmd!
+      autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+      autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
 
 function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+      inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+      inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
+      if CocAction('hasProvider', 'hover')
+            call CocActionAsync('doHover')
+      else
+            call feedkeys('K', 'in')
+      endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 augroup mygroup
-  autocmd!
-  " Setup formatexpr specified filetype(s)
-  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-  " Update signature help on jump placeholder
-  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+      autocmd!
+      " Setup formatexpr specified filetype(s)
+      autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+      " Update signature help on jump placeholder
+      autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 " Remap <C-f> and <C-b> to scroll float windows/popups
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+      nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+      inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+      inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+      vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+      vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 " Add `:Format` command to format current buffer
@@ -704,33 +699,18 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 " Sets the tabstop and shiftwidth to 4 only for python files
 augroup python_indent
-  autocmd!
-  autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
+      autocmd!
+      autocmd FileType python set tabstop=4 shiftwidth=4 expandtab
 augroup END
 
 " Indent guide
 function! SetCustomListChars()
-  let l:sw = &sw
-  let l:listchars = 'trail:·,tab:│\ ,multispace:┆' . repeat('\ ', l:sw - 1)
-  execute 'setlocal listchars=' . l:listchars
+      let l:sw = &sw
+      let l:listchars = 'trail:·,tab:│\ ,multispace:┆' . repeat('\ ', l:sw - 1)
+      execute 'setlocal listchars=' . l:listchars
 endfunction
 
 autocmd BufWinEnter * call SetCustomListChars()
 set list
-
-function! Preserve(command)
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  execute a:command
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
-endfunction
-
-autocmd BufWritePre *.py,*.js,*.r,*.Rmd,*.css,*.html :call Preserve("%s/\\s\\+$//e")
-autocmd BufWritePre *.py,*.js,*.r,*.Rmd,*.css,*.html :call Preserve("normal gg=G")
 
 " }}}

@@ -100,6 +100,7 @@ Plug 'wakatime/vim-wakatime'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'sillybun/vim-repl'
 Plug 'puremourning/vimspector'
+Plug 'goerz/jupytext.vim'
 
 " Git plugins
 Plug 'tpope/vim-fugitive'
@@ -166,14 +167,15 @@ call plug#end()
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline_theme='catppuccin_mocha'
+let g:airline_theme='gruvbox_material'
 
 " Colorscheme configuration
-" set background=dark
-" let g:gruvbox_material_background = 'medium' " available: hard, medium, and soft
-" let g:gruvbox_material_better_performance = 1
-" let g:gruvbox_material_enable_bold = 1
-colorscheme catppuccin_mocha
+set background=dark
+let g:gruvbox_material_background = 'medium' " available: hard, medium, and soft
+let g:gruvbox_material_foreground = 'mix' " available: material, mix, original
+let g:gruvbox_material_better_performance = 1
+let g:gruvbox_material_enable_bold = 1
+colorscheme gruvbox-material
 
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
@@ -234,6 +236,10 @@ let g:repl_exit_commands = {
 let g:repl_cursor_down = 1
 let g:repl_python_automerge = 1
 let g:repl_auto_sends = ['class ', 'def ', 'for ', 'if ', 'while ', 'with ', 'async def', '@', 'try']
+
+" Jupytext plugin config
+let g:jupytext_enable = 1
+let g:jupytext_fmt = 'py'
 
 " }}}
 

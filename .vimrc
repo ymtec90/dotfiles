@@ -214,7 +214,7 @@ let g:coc_global_extensions = [
 let g:sendtorepl_invoke_key = "<leader>ps"
 let g:repl_position = 3
 let g:repl_stayatrepl_when_open = 0
-let g:repl_ipython_version = '8.15'
+let g:repl_ipython_version = '7.7'
 let g:repl_program = {
                   \	'python': 'ipython',
                   \	'default': 'zsh',
@@ -418,6 +418,17 @@ let g:which_key_map.q = {
                   \ 't' : ['DBUIToggle', 'Toggle DBUI'],
                   \ 'b' : ['DBUIFindBuffer', 'Find Buffer'],
                   \ }
+
+" Mappings for running scripts and Bracey
+let g:which_key_map.r = {
+                  \ 'name': 'Run',
+                  \ 'b' : ['Bracey', 'Start Bracey Server'],
+                  \ 's' : ['BraceyStop', 'Stop Bracey Server'],
+                  \ }
+nnoremap <leader>rp :w<CR> :!clear<CR> :!python3 %<CR>
+let g:which_key_map.r.p = 'Run Python script'
+nnoremap <leader>rn :w<CR> :!clear<CR> :!node %<CR>
+let g:which_key_map.r.n = 'Run Javascript'
 
 " Mappings for the NvimR
 let g:which_lkey_map.r = {

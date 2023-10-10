@@ -8,13 +8,8 @@ applications in use.
 1. Vim
 2. Tmux (using tpm plugin manager)
 3. Zsh
-4. i3wm
 
 ### Some previews
-
-#### Fetch and the i3statusbar
-
-![Fetch](https://github.com/ymtec90/dotfiles/blob/main/images/fetch.png?raw=true)
 
 #### Vim
 
@@ -29,7 +24,7 @@ applications in use.
 1. Open your terminal.
 2. Type `$ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
 3. Paste the `.tmux.conf` inside your `$HOME` folder
-   `$ mv .../configs/.tmux.conf ~/`
+   `$ mv .../dotfiles/tmux/.tmux.conf ~/`
 4. Start the tmux and then press `Ctrl + b + I` to force the system to install
    the required plugins.
 
@@ -85,18 +80,17 @@ To ensure the correct functioning of the dotfiles available here, it will be nec
 
 1. `Vim`
 2. `tmux`
-3. `i3wm`
-4. `ripgrep` (rp)
-5. `node`
-6. `npm`
-7. `python3-venv`
-8. `yarn`
-9. `bat`
-10. [delta](https://github.com/dandavison/delta)
-11. [The Silver Searcher](https://github.com/ggreer/the_silver_searcher)
-12. `djlint`
-13. `prettier`
-14. `R`
-15. `ipython`
-16. `fzf`
-17. `zsh`
+3. `ripgrep` (rp)
+4. `node`
+5. `npm`
+6. `python3-venv` (in Debian/Ubuntu distros)
+7. `yarn`
+8. `bat`
+9. [delta](https://github.com/dandavison/delta)
+10. [The Silver Searcher](https://github.com/ggreer/the_silver_searcher)
+11. `djlint`
+12. `prettier`
+13. `R`
+14. `ipython` (this configuration was tested with the 7.7 version)
+15. `fzf`
+16. `zsh`

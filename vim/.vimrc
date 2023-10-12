@@ -204,9 +204,12 @@ let g:coc_global_extensions = [
                   \ 'coc-tsserver',
                   \ 'coc-stylelint',
                   \ 'coc-htmlhint',
+                  \ 'coc-clangd',
                   \ 'coc-htmldjango',
                   \ 'coc-css',
+                  \ 'coc-rust-analyzer',
                   \ 'coc-r-lsp',
+                  \ 'coc-lua',
                   \ '@yaegassy/coc-pylsp',
                   \ ]
 
@@ -270,6 +273,10 @@ vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
 call which_key#register('<Space>', "g:which_key_map")
 
 let g:which_key_map =  {}
+
+" Mappings for search
+nnoremap <silent> <leader>l :nohlsearch<CR>
+let g:which_key_map.l = 'Turn off highlight search'
 
 " Mappings for fzf commands
 let g:which_key_map.f = {
@@ -364,7 +371,7 @@ let g:which_key_map.s.y = 'Turn on Spellcheck'
 nnoremap <silent> <leader>sn :set nospell<CR>
 let g:which_key_map.s.n = 'Turn off Spellcheck'
 
-" Mappings for bg toggle
+" Mappings for background toggle
 let g:which_key_map.u = { 'name' : 'UI' }
 nnoremap <silent> <leader>ud :set background=dark<CR>
 let g:which_key_map.u.d = 'Background Dark'
@@ -429,6 +436,10 @@ nnoremap <leader>rp :w<CR> :!clear<CR> :!python3 %<CR>
 let g:which_key_map.r.p = 'Run Python script'
 nnoremap <leader>rn :w<CR> :!clear<CR> :!node %<CR>
 let g:which_key_map.r.n = 'Run Javascript'
+nnoremap <leader>rc :w<CR> :!clear<CR> :!gcc %<CR> :!./a.out<CR>
+let g:which_key_map.r.c = 'Compile and Run C/C++'
+nnoremap <leader>rr :w<CR> :!cargo run %<CR>
+let g:which_key_map.r.r = 'Compile and Run Rust'
 
 " Mappings for the NvimR
 let g:which_lkey_map.r = {

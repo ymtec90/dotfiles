@@ -36,12 +36,18 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
     Plug 'davidhalter/jedi-vim'
+    Plug 'mattn/emmet-vim'
     Plug 'catppuccin/vim', { 'as': 'catppuccin' }
     Plug 'psf/black', { 'branch': 'stable' }
+    Plug 'prettier/vim-prettier', {
+        \ 'do': 'yarn install --frozen-lockfile --production',
+        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'markdown', 'yaml', 'html'] }
 
 call plug#end()
 
 colorscheme catppuccin_mocha
+let g:prettier#autoformat_require_pragma = 0
+let g:user_emmet_leader_key='<leader>,'
 
 " Mappings
 
@@ -95,7 +101,7 @@ augroup numbertoggle
 augroup END
 
 " Formata arquivos Python utilizando o Black
-augroup fmt
+augroup fmtblack
     autocmd!
     autocmd BufWritePre *.py execute ':Black'
 augroup END

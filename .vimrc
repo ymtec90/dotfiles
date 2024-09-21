@@ -21,6 +21,7 @@ set showcmd
 set showmode
 set showmatch
 set hlsearch
+set omnifunc=ale#completion#OmniFunc
 set history=1000
 set wildmenu
 set wildmode=list:longest
@@ -35,19 +36,44 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
-    Plug 'davidhalter/jedi-vim'
     Plug 'mattn/emmet-vim'
     Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-    Plug 'psf/black', { 'branch': 'stable' }
+    Plug 'dense-analysis/ale'
     Plug 'prettier/vim-prettier', {
         \ 'do': 'yarn install --frozen-lockfile --production',
         \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'markdown', 'yaml', 'html'] }
 
 call plug#end()
 
+" Configurando o catppuccin como tema
 colorscheme catppuccin_mocha
+
+" Configurando o Prettier para funcionar sem a necessidade da tag @format nos
+" documentos
 let g:prettier#autoformat_require_pragma = 0
+
+" Remapeando leader-key do emmet
 let g:user_emmet_leader_key='<leader>,'
+
+" Configuracoes do ALE
+let g:ale_completion_enabled = 1
+let g:ale_fixers = {
+            \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'python': ['black'],
+            \ 'json': ['prettier'],
+            \ 'html': ['prettier'],
+            \ 'css': ['prettier'],
+            \ }
+let g:ale_linters = {
+            \ 'python': ['ruff', 'jedils'],
+            \ }
+let g:ale_fix_on_save = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
 " Mappings
 
@@ -99,15 +125,6 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
     autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
 augroup END
-
-" Formata arquivos Python utilizando o Black
-augroup fmtblack
-    autocmd!
-    autocmd BufWritePre *.py execute ':Black'
-augroup END
-
-" Verifica erros em aquivos Python com ruff e mostrar o resultado no quickfix
-autocmd BufWritePost *.py silent! execute '!ruff check % > /data/data/com.termux/files/home/.ruff_errors/ruff_output' | cfile /data/data/com.termux/files/home/.ruff_errors/ruff_output | if len(getqflist()) > 0 | copen | endif
 
 " Status Line
 

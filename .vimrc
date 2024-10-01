@@ -39,21 +39,15 @@ call plug#begin('~/.vim/plugged')
     Plug 'mattn/emmet-vim'
     Plug 'catppuccin/vim', { 'as': 'catppuccin' }
     Plug 'dense-analysis/ale'
-    Plug 'prettier/vim-prettier', {
-        \ 'do': 'yarn install --frozen-lockfile --production',
-        \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'markdown', 'yaml', 'html'] }
 
 call plug#end()
 
 " Configurando o catppuccin como tema
 colorscheme catppuccin_mocha
 
-" Configurando o Prettier para funcionar sem a necessidade da tag @format nos
-" documentos
-let g:prettier#autoformat_require_pragma = 0
-
 " Remapeando leader-key do emmet
 let g:user_emmet_leader_key='<leader>,'
+let g:user_emmet_mode='n'
 
 " Configuracoes do ALE
 let g:ale_completion_enabled = 1

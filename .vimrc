@@ -32,24 +32,37 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 call plug#begin('~/.vim/plugged')
 
-	Plug 'preservim/nerdtree'
+    " Better files navigation
+    Plug 'preservim/nerdtree'
+    " HTML e CSS plugins
+    Plug 'ap/vim-css-color'
+    Plug 'alvan/vim-closetag'
+    Plug 'AndrewRadev/tagalong.vim'
+    Plug 'mattn/emmet-vim'
+    " Improve text editting and visualization
     Plug 'jiangmiao/auto-pairs'
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
-    Plug 'mattn/emmet-vim'
-    Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+    " Git integration
+    Plug 'airblade/vim-gitgutter'
+    " Why not use it, I think it's lighter than Coc and don't have the minimal
+    " version prerequisite issue
     Plug 'dense-analysis/ale'
+    " Tmux integration
+    Plug 'christoomey/vim-tmux-navigator'
+    " Colorschemes
+    Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
-" Configurando o catppuccin como tema
+" Setting Catppuccin as colorscheme
 colorscheme catppuccin_mocha
 
-" Remapeando leader-key do emmet
+" Remapping emmet's plugin leader-key
 let g:user_emmet_leader_key='<leader>,'
 let g:user_emmet_mode='n'
 
-" Configuracoes do ALE
+" ALE configs
 let g:ale_completion_enabled = 1
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -91,6 +104,10 @@ nnoremap <Up> <Nop>
 nnoremap <Down> <Nop>
 nnoremap <Right> <Nop>
 nnoremap <Left> <Nop>
+nnoremap <silent> <c-h> :<C-U>TmuxNavigateLeft<CR>
+nnoremap <silent> <c-j> :<C-U>TmuxNavigateDown<CR>
+nnoremap <silent> <c-k> :<C-U>TmuxNavigateUp<CR>
+nnoremap <silent> <c-l> :<C-U>TmuxNavigateRight<CR>
 
 " VimScript
 

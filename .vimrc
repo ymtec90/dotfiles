@@ -43,8 +43,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
+    Plug 'tpope/vim-commentary'
     " Git integration
     Plug 'airblade/vim-gitgutter'
+    Plug 'tpope/vim-fugitive'
     " Why not use it, I think it's lighter than Coc and don't have the minimal
     " version prerequisite issue
     Plug 'dense-analysis/ale'

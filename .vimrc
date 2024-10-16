@@ -34,6 +34,7 @@ call plug#begin('~/.vim/plugged')
 
     " Better files navigation
     Plug 'preservim/nerdtree'
+    Plug 'ryanoasis/vim-devicons'
     " HTML e CSS plugins
     Plug 'ap/vim-css-color'
     Plug 'alvan/vim-closetag'
@@ -68,13 +69,13 @@ let g:user_emmet_mode='n'
 let g:ale_completion_enabled = 1
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'python': ['black'],
+            \ 'python': ['black', 'isort'],
             \ 'json': ['prettier'],
             \ 'html': ['prettier'],
             \ 'css': ['prettier'],
             \ }
 let g:ale_linters = {
-            \ 'python': ['ruff', 'jedils'],
+            \ 'python': ['jedils'],
             \ }
 let g:ale_fix_on_save = 1
 let g:ale_sign_error = '>>'

@@ -45,6 +45,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
+    " Floaterminal integration
+    Plug 'voldikss/vim-floaterm'
+    Plug 'skywind3000/asyncrun.vim'
     " Git integration
     Plug 'airblade/vim-gitgutter'
     Plug 'tpope/vim-fugitive'
@@ -53,6 +56,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'dense-analysis/ale'
     " Tmux integration
     Plug 'christoomey/vim-tmux-navigator'
+    " Annotation and planner
+    Plug 'vimwiki/vimwiki'
+    Plug 'mattn/calendar-vim'
     " Colorschemes
     Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
@@ -85,9 +91,13 @@ let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
+" Vimwiki list symbols
+let g:vimwiki_listsyms = '✗○◐●✓'
+
 " Mappings
 
 let mapleader = " "
+nnoremap <leader>q :q<CR>
 inoremap jj <ESC>
 nnoremap o o<ESC>
 nnoremap O O<ESC>
@@ -96,7 +106,7 @@ vnoremap <silent> K :m '<-2<CR>gv=gv
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap Y y$
-nnoremap <leader>py :w <CR>:!clear <CR>:!python3 % <CR>
+nnoremap <leader>py :AsyncRun -mode=term -pos=floaterm python3 % <CR>
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
@@ -111,6 +121,7 @@ nnoremap <silent> <c-h> :<C-U>TmuxNavigateLeft<CR>
 nnoremap <silent> <c-j> :<C-U>TmuxNavigateDown<CR>
 nnoremap <silent> <c-k> :<C-U>TmuxNavigateUp<CR>
 nnoremap <silent> <c-l> :<C-U>TmuxNavigateRight<CR>
+nnoremap <silent> <leader>t <Plug>VimwikiToggleListItem<CR>
 
 " VimScript
 

@@ -1,10 +1,14 @@
 " Basic configuration
 
 set nocompatible
+set hidden
 filetype on
 filetype plugin on
 filetype indent on
 syntax on
+set laststatus=2
+set signcolumn=yes
+set updatetime=300
 set termguicolors
 set number relativenumber
 set cursorline
@@ -21,12 +25,10 @@ set showcmd
 set showmode
 set showmatch
 set hlsearch
-set omnifunc=ale#completion#OmniFunc
 set history=1000
 set wildmenu
 set wildmode=list:longest
 set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
-
 
 " Plugins
 
@@ -35,6 +37,9 @@ call plug#begin('~/.vim/plugged')
     " Better files navigation
     Plug 'preservim/nerdtree'
     Plug 'ryanoasis/vim-devicons'
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    " UI plugins
+    Plug 'itchyny/lightline.vim'
     " FZF integration
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
@@ -45,6 +50,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'itchyny/vim-cursorword'
     Plug 'luochen1990/rainbow'
     Plug 'tpope/vim-commentary'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'ap/vim-css-color'
     " Floaterminal integration
     Plug 'voldikss/vim-floaterm'
     Plug 'skywind3000/asyncrun.vim'
@@ -83,6 +90,18 @@ let g:rainbow_active = 1
 " Vimwiki list symbols
 let g:vimwiki_listsyms = '✗○◐●✓'
 
+let g:lightline = {
+            \ 'colorscheme': 'catppuccin_mocha',
+            \ 'active': {
+            \   'left': [ [ 'mode', 'paste' ],
+            \             [ 'cocstatus', 'readonly', 'filename', 'modified' ] ]
+            \ },
+            \ 'component_function': {
+            \   'cocstatus': 'coc#status'
+            \ },
+            \ }
+
+
 " Coc Extensions
 let g:coc_global_extensions = [
                   \ 'coc-css',
@@ -108,6 +127,8 @@ nnoremap <leader>q :q<CR>
 inoremap jj <ESC>
 nnoremap o o<ESC>
 nnoremap O O<ESC>
+nnoremap ]b :bnext<CR>
+nnoremap b[ :bprev<CR>
 vnoremap <silent> J :m '>+1<CR>gv=gv
 vnoremap <silent> K :m '<-2<CR>gv=gv
 nnoremap <silent> <leader>hl :nohlsearch<CR>
@@ -167,23 +188,7 @@ augroup END
 " Uses isort when writing a python file 
 autocmd BufWritePre *.py silent! :call CocAction('runCommand', 'python.sortImports')
 
-" Status Line
-
-set statusline=
-set statusline+=\ %F\ %M\ %Y\ %R
-" Add Vim's native statusline support
-" NOTE: Please see `:h coc-status` for integrations with external plugins that
-" provide custom statusline: lightline.vim, vim-airline
-set statusline+=%{coc#status()}%{get(b:,'coc_current_function','')}
-set statusline+=%=
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
-set laststatus=2
-
 " Coc.nvim configuration
-
-" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-" delays and poor user experience
-set updatetime=300
 
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
@@ -325,3 +330,5 @@ nnoremap <silent><nowait> <space>cj  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>ck  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent><nowait> <space>cp  :<C-u>CocListResume<CR>
+" Open yank list
+nnoremap <silent><nowait> <space>cy :<C-u>CocList -A --normal yank<cr>

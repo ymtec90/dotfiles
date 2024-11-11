@@ -87,18 +87,21 @@ let g:rainbow_active = 1
 let g:ale_completion_enabled = 1
 let g:ale_fixers = {
             \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-            \ 'python': ['yapf', 'isort'],
+            \ 'python': ['yapf', 'isort', 'black', 'autoflake'],
             \ 'json': ['prettier'],
             \ 'html': ['prettier'],
             \ 'css': ['prettier'],
             \ 'javascript': ['prettier', 'eslint'],
+            \ 'rust': ['rustfmt'],
+            \ 'vim': ['ale_custom_linting_rules', 'vimls'],
             \ }
 let g:ale_linters = {
-            \ 'python': ['pyright', 'ruff'],
+            \ 'python': ['pyright', 'flake8'],
             \ 'html': ['htmlhint'],
             \ 'css': ['csslint'],
             \ 'htmldjango': ['djlint'],
             \ 'javascript': ['tsserver', 'eslint'],
+            \ 'rust': ['analyzer'],
             \ }
 let g:ale_set_ballons = 1
 let g:ale_hover_to_floating_preview = 1

@@ -113,12 +113,10 @@ source $ZSH/oh-my-zsh.sh
 
 eval "$(starship init zsh)"
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
+
+. "$HOME/.cargo/env"

@@ -25,7 +25,6 @@ set showcmd
 set showmode
 set showmatch
 set hlsearch
-set omnifunc=ale#completion#OmniFunc
 set history=1000
 set wildmenu
 set wildmode=list:longest
@@ -36,52 +35,66 @@ set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 
 call plug#begin('~/.vim/plugged')
 
-    " Better files navigation
-    Plug 'preservim/nerdtree'
-    Plug 'ryanoasis/vim-devicons'
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-    " Why not use it, I think it's lighter than Coc and don't have the minimal
-    " version prerequisite issue
-    Plug 'dense-analysis/ale'
-    " UI Plugins
-    Plug 'itchyny/lightline.vim'
-    Plug 'maximbaz/lightline-ale'
-    " HTML e CSS plugins
-    Plug 'ap/vim-css-color'
-    Plug 'alvan/vim-closetag'
-    Plug 'AndrewRadev/tagalong.vim'
-    Plug 'mattn/emmet-vim'
-    " Improve text editting and visualization
-    Plug 'sheerun/vim-polyglot'
-    Plug 'jiangmiao/auto-pairs'
-    Plug 'itchyny/vim-cursorword'
-    Plug 'luochen1990/rainbow'
-    Plug 'tpope/vim-commentary'
-    " Floaterminal integration
-    Plug 'voldikss/vim-floaterm'
-    Plug 'skywind3000/asyncrun.vim'
-    " Git integration
-    Plug 'airblade/vim-gitgutter'
-    Plug 'tpope/vim-fugitive'
-    " Tmux integration
-    Plug 'christoomey/vim-tmux-navigator'
-    " Colorschemes
-    Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+" Better files navigation
+Plug 'preservim/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+" Why not use it, I think it's lighter than Coc and don't have the minimal
+" version prerequisite issue
+Plug 'dense-analysis/ale'
+" UI Plugins
+Plug 'itchyny/lightline.vim'
+Plug 'maximbaz/lightline-ale'
+" Completion and snippets support
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'andreypopp/asyncomplete-ale.vim'
+Plug 'prabirshrestha/asyncomplete-emoji.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-emmet.vim'
+if has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+    Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+endif
+" HTML e CSS plugins
+Plug 'ap/vim-css-color'
+Plug 'alvan/vim-closetag'
+" Improve text editting and visualization
+Plug 'sheerun/vim-polyglot'
+Plug 'jiangmiao/auto-pairs'
+Plug 'itchyny/vim-cursorword'
+Plug 'luochen1990/rainbow'
+Plug 'tpope/vim-commentary'
+" Floaterminal integration
+Plug 'voldikss/vim-floaterm'
+Plug 'skywind3000/asyncrun.vim'
+" Git integration
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+" Tmux integration
+Plug 'christoomey/vim-tmux-navigator'
+" FZF plugins
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+" Colorschemes
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
 " Setting Catppuccin as colorscheme
 colorscheme catppuccin_mocha
 
-" Remapping emmet's plugin leader-key
-let g:user_emmet_leader_key='<leader>,'
-let g:user_emmet_mode='n'
-
 " Have nerdtree ignore certain files and directories.
 let NERDTreeIgnore=['\.git$', '\.jpg$', '\.mp4$', '\.ogg$', '\.iso$', '\.pdf$', '\.pyc$', '\.odt$', '\.png$', '\.gif$', '\.db$']
 
 " Rainbow parentheses
 let g:rainbow_active = 1
+
+" Asyncomplete config
+if has('python3')
+    let g:UltiSnipsExpandTrigger="<CR>"
+endif
 
 " ALE configs
 let g:ale_completion_enabled = 1
@@ -93,15 +106,14 @@ let g:ale_fixers = {
             \ 'css': ['prettier'],
             \ 'javascript': ['prettier', 'eslint'],
             \ 'rust': ['rustfmt'],
-            \ 'vim': ['ale_custom_linting_rules', 'vimls'],
             \ }
 let g:ale_linters = {
             \ 'python': ['pyright', 'flake8'],
             \ 'html': ['htmlhint'],
             \ 'css': ['csslint'],
-            \ 'htmldjango': ['djlint'],
             \ 'javascript': ['tsserver', 'eslint'],
             \ 'rust': ['analyzer'],
+            \ 'vim': ['ale_custom_linting_rules', 'vimls'],
             \ }
 let g:ale_set_ballons = 1
 let g:ale_hover_to_floating_preview = 1
@@ -158,6 +170,7 @@ nnoremap n nzz
 nnoremap N Nzz
 nnoremap Y y$
 nnoremap <leader>py :AsyncRun -mode=term -pos=floaterm python3 % <CR>
+nnoremap <leader>rs :AsyncRun -mode=term -pos=floaterm cargo run <CR>
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
@@ -172,26 +185,35 @@ nnoremap <silent> <c-h> :<C-U>TmuxNavigateLeft<CR>
 nnoremap <silent> <c-j> :<C-U>TmuxNavigateDown<CR>
 nnoremap <silent> <c-k> :<C-U>TmuxNavigateUp<CR>
 nnoremap <silent> <c-l> :<C-U>TmuxNavigateRight<CR>
+nnoremap <silent> <leader>fb :Buffers<CR>
+nnoremap <silent> <leader>ff :Files<CR>
+nnoremap <silent> <leader>fc :Colors<CR>
+nnoremap <silent> <leader>fm :Maps<CR>
+nnoremap <silent> <leader>fs :Snippets<CR>
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <CR>    pumvisible() ? asyncomplete#close_popup() : "\<CR>"
+
 
 " VimScript
 
 augroup filetype_vim
-	autocmd!
-	autocmd Filetype vim setlocal foldmethod=marker
+    autocmd!
+    autocmd Filetype vim setlocal foldmethod=marker
 augroup END
 
-autocmd Filetype html setlocal tabstop=2 shiftwidth=2 expandtab
+autocmd Filetype css,html,javascript,typescript setlocal tabstop=2 shiftwidth=2 expandtab
 
 if version >= 703
-	set undodir=~/.vim/backup
-	set undofile
-	set undoreload=10000
+    set undodir=~/.vim/backup
+    set undofile
+    set undoreload=10000
 endif
 
 augroup cursor_off
-	autocmd!
-	autocmd WinLeave * set nocursorline
-	autocmd WinEnter * set cursorline
+    autocmd!
+    autocmd WinLeave * set nocursorline
+    autocmd WinEnter * set cursorline
 augroup END
 
 " A function to work with relativenumbers
@@ -203,6 +225,49 @@ augroup END
 
 " ALEHover
 augroup ale_hover_cursor
-  autocmd!
-  autocmd CursorHold * ALEHover
+    autocmd!
+    autocmd CursorHold * ALEHover
 augroup END
+
+" Asyncomplete registration
+au User asyncomplete_setup call asyncomplete#ale#register_source({
+            \ 'name': 'reason',
+            \ 'linter': 'flow',
+            \ })
+
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
+            \ 'name': 'emoji',
+            \ 'allowlist': ['*'],
+            \ 'completor': function('asyncomplete#sources#emoji#completor'),
+            \ }))
+
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
+            \ 'name': 'file',
+            \ 'allowlist': ['*'],
+            \ 'priority': 10,
+            \ 'completor': function('asyncomplete#sources#file#completor')
+            \ }))
+
+call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+            \ 'name': 'buffer',
+            \ 'allowlist': ['*'],
+            \ 'blocklist': ['go'],
+            \ 'completor': function('asyncomplete#sources#buffer#completor'),
+            \ 'config': {
+            \    'max_buffer_size': 5000000,
+            \  },
+            \ }))
+
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emmet#get_source_options({
+            \ 'name': 'emmet',
+            \ 'whitelist': ['html'],
+            \ 'completor': function('asyncomplete#sources#emmet#completor'),
+            \ }))
+
+if has('python3')
+    call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+                \ 'name': 'ultisnips',
+                \ 'allowlist': ['*'],
+                \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
+                \ }))
+endif

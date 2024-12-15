@@ -71,12 +71,11 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-        git
-        zsh-syntax-highlighting
-        zsh-autosuggestions
-        fzf
-        z
-        )
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    fzf
+    )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -111,24 +110,24 @@ source $ZSH/oh-my-zsh.sh
 
 # ~/.zshrc
 
+# aliases
+alias ls="lsd"
+
 eval "$(starship init zsh)"
+
+# virtualenvwrapper settings:
+export VIRTUALENVWRAPPER_PYTHON=/data/data/com.termux/files/usr/bin/python
+export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_VIRTUALENV=/data/data/com.termux/files/usr/bin/virtualenv
+source /data/data/com.termux/files/usr/bin/virtualenvwrapper.sh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
-source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
-
-. "$HOME/.cargo/env"
-
+# Browser sync to Web Development
 server() {
-  SERVER_IP=$(hostname -i | awk '{print $1}')
-  browser-sync start --server --files . --no-notify --host "$SERVER_IP" --port 9000
+    SERVER_IP=$(hostname -i | awk '{print $1}')
+    browser-sync start --server --files . --no-notify --host $SERVER_IP --port 9000
 }
 
-alias ls="lsd"
+# PATH
+export PATH="/data/data/com.termux/files/home/.cargo/bin:$PATH"
